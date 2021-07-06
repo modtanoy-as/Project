@@ -1,0 +1,38 @@
+.nav-font{
+    font-weight: bold;
+    font-size: 50px;
+}
+
+div{
+    display: block;
+}
+
+.text-head{
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+textarea{
+    background: #ffeac9;
+    width: 600px;
+    height: 250px;
+    
+    outline: none;
+    border: none;
+    padding: 10px;
+  }
+
+  .set-box{
+    margin-top: 50px;
+  }
+
+  .set-button{
+      margin-top: 20px;
+  }
+
+  .set-select{
+      width: 5%;
+      margin-top: 20px;
+  }
