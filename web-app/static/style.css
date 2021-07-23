@@ -1,0 +1,47 @@
+.nav-font{
+    font-weight: bold;
+    font-size: 50px;
+}
+
+div{
+    display: block;
+}
+
+.text-head{
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+textarea{
+    background: #ffeac9;
+    width: 400px;
+    height: 150px;
+    
+    outline: none;
+    border: none;
+    padding: 10px;
+  }
+
+  .set-box{
+    margin-top: 50px;
+  }
+
+  .set-button{
+      margin-top: 20px;
+  }
+
+  .select{
+      margin-top: 10px;
+      margin-bottom: -30px;
+  }
+
+  .text-box{
+      font-size: 20px;
+      margin-bottom: 20px;
+  }
+
+  .result{
+    margin-top: 49px;
+  }

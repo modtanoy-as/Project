@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale-1.0">
+        <meta http-equiv="X-UV-Compatible" content="ie-edge">
+        <title>Bibliography</title>
+        <link rel='stylesheet' type= "text/css" href="../static/style.css" >
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightblue;">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="">Bibliography Checker</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link" href="{{url_for('profile')}}"></a>
+                  <a class="nav-link" href="{{url_for('text')}}">Text</a>
+                  <a class="nav-link" href="{{url_for('file')}}">File</a>
+                </div>
+              </div>
+            </div>
+          </nav>
+          
+
+        <main>
+
+            <div class = "text-head">
+                Check your bibliography for grammar, commar and punctuation errors
+            </div>
+
+            <div class ="select container-fluid">
+                <div class = "row">
+                    <div class = "col">
+                        <select class="form-select" aria-label="Default select example" style="width: 220px">
+                    
+                            <option selected>เลือกรูปแบบบรรณานุกรม</option>
+                            <option value="1">APA</option>
+                            <option value="2">IEEE</option>
+                            <option value="3">Harvard</option>
+                            <option value="4">Vancouver</option>      
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class ="set-box">
+                <div class = "row">
+                    <div class = "col">
+                        <div class="form-group container-fluid">
+                            <div class = "text-box">
+                                เช็คจุดและเว้นวรรค
+                            </div>
+                            <textarea class="form-control" name="text" placeholder="Start writing here..."></textarea>
+                            <button type="submit" class="btn btn-outline-primary set-button">check your text</button>
+                        </div>
+                    </div>
+                    <div class = "col">
+                        <div class ="result">
+                            <div class="form-group container-fluid">
+                                <textarea class="form-control" name="text"></textarea>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class ="set-box">
+                <div class = "row">
+                    <div class = "col">
+                        <div class="form-group container-fluid">
+                            <div class = "text-box" style="margin-top: -20px;">
+                                เช็คตำแหน่ง
+                            </div>
+                            <textarea class="form-control" name="text" placeholder="Start writing here..."></textarea>
+                            <button type="submit" class="btn btn-outline-primary set-button">check your text</button>
+                        </div>
+                    </div>
+                    <div class = "col">
+                        <div class ="result">
+                            <div class="form-group container-fluid" style="margin-top: -20px;">
+                                <textarea class="form-control" name="text"></textarea>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+
+    </body>
+
+
+</html>
