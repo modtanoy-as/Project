@@ -7,6 +7,7 @@
         <title>Bibliography</title>
         <link rel='stylesheet' type= "text/css" href="../static/style.css" >
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     </head>
     <body>
@@ -35,16 +36,27 @@
 
             <div class ="select container-fluid">
                 <div class = "row">
-                    <div class = "col">
-                        <select class="form-select" aria-label="Default select example" style="width: 220px">
                     
+                <div class="alertTxt alert alert-danger fade "  role="alert">
+                    <div>
+                        กรุณาเลือกประเภท
+                    </div>
+                </div>
+
+                    <div class = "col slectType">
+                        <select id="selectType" class="form-select" aria-label="Default select example" style="width: 220px">
                             <option selected>เลือกรูปแบบบรรณานุกรม</option>
-                            <option value="1">APA</option>
-                            <option value="2">IEEE</option>
-                            <option value="3">Harvard</option>
-                            <option value="4">Vancouver</option>      
+                            <option value="APA">APA</option>
+                            <option value="IEEE">IEEE</option>
+                            <option value="Harvard">Harvard</option>
+                            <option value="Vancouver">Vancouver</option>      
+                        </select>
+
+                        <select id="selectPattern" disabled class="form-select" aria-label="Default select example" style="width: 220px">
+                 
                         </select>
                     </div>
+
                 </div>
             </div>
 
@@ -56,7 +68,7 @@
                                 เช็คจุดและเว้นวรรค
                             </div>
                             <textarea class="form-control" name="text" placeholder="Start writing here..."></textarea>
-                            <button type="submit" class="btn btn-outline-primary set-button">check your text</button>
+                            <button type="button" class="btn btn-outline-primary set-button">check your text</button>
                         </div>
                     </div>
                     <div class = "col">
@@ -76,14 +88,15 @@
                             <div class = "text-box" style="margin-top: -20px;">
                                 เช็คตำแหน่ง
                             </div>
-                            <textarea class="form-control" name="text" placeholder="Start writing here..."></textarea>
-                            <button type="submit" class="btn btn-outline-primary set-button">check your text</button>
+                            <textarea id="txtInput" class="form-control" name="text" placeholder="Start writing here..."></textarea>
+                            <small id="feedback" style="color: red; display: none;">Feedback : </small>
+                            <button type="button" class="btn btn-outline-primary set-button" id="checktext">check your text</button>
                         </div>
                     </div>
                     <div class = "col">
                         <div class ="result">
                             <div class="form-group container-fluid" style="margin-top: -20px;">
-                                <textarea class="form-control" name="text"></textarea>      
+                                <textarea readonly id="txtOutput" class="form-control" name="text"></textarea>      
                             </div>
                         </div>
                     </div>
@@ -93,6 +106,7 @@
         </main>
 
     </body>
+    <script src="{{url_for('static', filename='index.js')}}"></script>
 
 
 </html>
