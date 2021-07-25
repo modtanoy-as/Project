@@ -76,3 +76,35 @@ $( "#selectPattern" ).change(function() {
     MODE = THISMODE
 });
 
+
+$('input[name=myPDF]').change(function(ev) {
+    pdffile=this.files[0]
+    pdffile_url=URL.createObjectURL(pdffile);
+    $('#viewer').attr('src',pdffile_url);
+
+    $("#panel-wrap")
+        .removeClass("fa fa-angle-down")
+        .addClass("fa fa-angle-up");
+
+    $("#panel-wrap").closest(".card").find(".collapse").collapse("show");
+});
+
+// ACTION EXPAN
+$(document).on("click","i.fa.fa-angle-down", function(e) {
+    var contentElement = $(e.target).closest(".card").find(".collapse");
+    $(e.target)
+        .removeClass("fa fa-angle-down")
+        .addClass("fa fa-angle-up");
+    contentElement.collapse("toggle")
+});
+
+$(document).on("click","i.fa.fa-angle-up", function(e) {
+    var contentElement = $(e.target).closest(".card").find(".collapse");
+    $(e.target)
+        .removeClass("fa fa-angle-up")
+        .addClass("fa fa-angle-down");
+    contentElement.collapse("toggle")
+       
+});
+
+//END ACTION EXPAN

@@ -60,3 +60,15 @@ textarea{
     right: 1rem;
     bottom: 1rem;
   }
+/* 
+  .BoxPDF{
+    position: absolute !important;
+    height: 500px;
+    right: 1rem;
+    margin-top: 2.5rem;
+  } */
+
+
+  body {
+    font-family: 'Kanit', sans-serif !important;
+  }
