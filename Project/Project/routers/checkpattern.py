@@ -52,6 +52,21 @@ async def checkFormat(txt:str,mode:int):
         result =  typefn.checkBLOG(txt)
     return result
     
+from CheckTxtSpecial import ApaMatch,ApaCheck
+import json
+@router.post("/checkPosition" , status_code = 200)
+async def checkPosition(txt:str, txtSpecial:str ,structure = "", ):
+    a = ApaCheck()
+
+    txtSpecial = json.loads(txtSpecial)
+    print(txtSpecial)
+
+    a.check(
+        txt,
+        structure,
+        txtSpecial
+    )
+    return a.Matches[0].output()
   
 
     
