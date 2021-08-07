@@ -92,14 +92,15 @@
                             <div class = "text-box">
                                 เช็คจุดและเว้นวรรค
                             </div>
-                            <textarea class="form-control" name="text" placeholder="Start writing here..."></textarea>
-                            <button type="button" class="btn btn-outline-primary set-button">check your text</button>
+                            <textarea class="form-control" id="txtInputPosition" name="text" placeholder="Start writing here..."></textarea>
+                            <small id="feedbackPosition" style="color: red; display: none;">Feedback : </small>
+                            <button type="button" id="checkposition" class="btn btn-outline-primary set-button">check your text</button>
                         </div>
                     </div>
                     <div class = "col">
                         <div class ="result">
                             <div class="form-group container-fluid">
-                                <textarea class="form-control" name="text"></textarea>      
+                                <textarea readonly id="txtOutputPosition" class="form-control" name="text"></textarea>      
                             </div>
                         </div>
                     </div>

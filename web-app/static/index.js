@@ -128,3 +128,54 @@ $(document).on("click","i.fa.fa-angle-up", function(e) {
 });
 
 //END ACTION EXPAN
+
+
+// Check Position
+
+$( "#checkposition" ).click(function() {
+    let inPutTxt =  $("#txtInputPosition").val()
+    console.log("mode => " ,  MODE ,"inPutTxt => ",inPutTxt);
+    if(MODE === 0){
+        $(".alertTxt").addClass("show")
+        setTimeout(() => {
+            $(".alertTxt").removeClass("show")
+        }, 2500);
+        return
+    }
+    getCheckPosition(inPutTxt,MODE)
+
+});
+
+function getCheckPosition(text,mode){
+    var requestOptions = {
+        method: 'POST',
+        redirect: 'follow'
+      };
+      
+      let structure = 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.'
+      let txtSpecial  = '{".":5,"(" : 1 , ")" : 1 }'
+
+      let param = `txt=${text}&txtSpecial=${txtSpecial}&structure=${structure}`
+
+      console.log(param);
+
+      fetch(API_URL+"checkPosition?"+param, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (result?.suggestion){
+                $( "#txtOutputPosition" ).text(result?.suggestion)
+            }else{
+                $( "#txtOutputPosition" ).text("")
+            }
+            
+            if (result?.feedback){
+                $( "#feedbackPosition" ).show('fast').addClass("d-flex")
+                $( "#feedbackPosition" ).text("Feedback : "+result.feedback)
+            }else{
+                $( "#feedbackPosition" ).hide().removeClass("d-flex")
+            }
+            // $( "#feedback" ).text("Feedback : "+result?.feedback ? result.feedback : "")
+        })
+        .catch(error => console.log('error', error));
+}

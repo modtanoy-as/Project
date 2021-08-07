@@ -43,14 +43,14 @@ class ApaMatch:
             print("Match from " + str(self.start) + " to " + str(self.end)
                   + " for:")
             if self.target:
-                txtOutput["Target"] =  self.target.strip()
+                txtOutput["target"] =  self.target.strip()
                 print("Target: " + self.target.strip())
         if self.feedback:
-            txtOutput["Feedback"] = self.feedback.strip()
+            txtOutput["feedback"] = self.feedback.strip()
             print("Feedback: " + self.feedback.strip())
         if self.suggestions:
             for s in self.suggestions:
-                txtOutput["Suggestion"] = s.strip()
+                txtOutput["suggestion"] = s.strip()
                 print("Suggestion: " + s.strip())
         return txtOutput
 
