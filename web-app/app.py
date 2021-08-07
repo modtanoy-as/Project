@@ -8,15 +8,15 @@ def profile():
     # text_message = request.args['message']
     return render_template("page.html")
 
-@app.route('/file' ,methods = ["GET" , "POST"])
-def file():
-    # text_message = request.args['message']
-    return render_template("file.html")
+# @app.route('/file' ,methods = ["GET" , "POST"])
+# def file():
+#     # text_message = request.args['message']
+#     return render_template("file.html")
 
-@app.route('/text' ,methods = ["GET" , "POST"])
-def text():
-    # text_message = request.args['message']
-    return render_template("text.html")
+# @app.route('/text' ,methods = ["GET" , "POST"])
+# def text():
+#     # text_message = request.args['message']
+#     return render_template("text.html")
 
 if __name__ == "__main__":
     app.run(debug=True , use_reloader=True)

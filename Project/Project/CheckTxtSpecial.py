@@ -147,7 +147,7 @@ class ApaCheck:
                 suggestion += resultTxt
 
             elif IscounttxtSpecialError == True:
-                newMatch.feedback = (u"จำนวนอักขระพิเศษไม่ครบตามโครงสร้างโปรดตรวจสอบอีกครั้ง")
+                newMatch.feedback = (u"จำนวนอักขระพิเศษไม่ครบตามโครงสร้างโปรดตรวจสอบอีกครั้ง"+" => " + structure)
 
             else:
                 newMatch.feedback = (u"ข้อมูลถูกต้อง")
