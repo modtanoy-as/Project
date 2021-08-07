@@ -146,14 +146,31 @@ $( "#checkposition" ).click(function() {
 
 });
 
+
+var select_txtSpecial = [
+    {'txtSpecial' : '{".":5,"(" : 1 , ")" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '1' },
+    {'txtSpecial' : '{".":3,"(" : 1 , ")" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '2' }
+]
+
+function selectSpecial(mode){
+    let data = select_txtSpecial.find(d => d.mode == mode);
+    return data
+}
+
+
 function getCheckPosition(text,mode){
+    let data = selectSpecial(mode)
+
     var requestOptions = {
         method: 'POST',
         redirect: 'follow'
       };
       
-      let structure = 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.'
-      let txtSpecial  = '{".":5,"(" : 1 , ")" : 1 }'
+
+      if (data == undefined){ alert("ไม่พบรูปแบบ") ;  return}
+
+      let structure = data.structure
+      let txtSpecial  = data.txtSpecial
 
       let param = `txt=${text}&txtSpecial=${txtSpecial}&structure=${structure}`
 
