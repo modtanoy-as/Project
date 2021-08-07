@@ -57,7 +57,7 @@ import json
 @router.post("/checkPosition" , status_code = 200)
 async def checkPosition(txt:str, txtSpecial:str ,structure = "", ):
     a = ApaCheck()
-
+    
     txtSpecial = json.loads(txtSpecial)
     print(txtSpecial)
 
