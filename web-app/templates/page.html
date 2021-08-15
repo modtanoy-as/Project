@@ -126,6 +126,82 @@
                     </div>
                 </div>
             </div>
+
+            <div class ="container-fluid mt-5 mb-5">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="d-flex mb-3">
+                            <input  id="inputTxtDrag" style="margin-right: 16px;"  type="text" class="form-control w-75" placeholder="กรุณากรอกบรรณานุกรม">
+                            <button onclick="cutText()" class="btn btn-outline-secondary" type="button">ตัดคำ</button>
+                        </div>
+                        
+
+                        <!-- <div>ธรณ์ ธำรงนาวาสวัสดิ์. (2548). ใต้ทะเลมีความรัก ภาคสาม: หลังคลื่นอันดามัน. พิมพ์ครั้งที่ 2. กรุงเทพฯ: บ้านพระอาทิตย์.</div> -->
+                        <div id="txtList" class="mt-3">
+                            <!-- <span class="btn btn-outline-success" data-value="ธรณ์ ธำรงนาวาสวัสดิ์" draggable="true" ondragstart="drag(event)">ธรณ์ ธำรงนาวาสวัสดิ์</span>  
+                            <span class="btn btn-outline-success" data-value="(2548)" draggable="true" ondragstart="drag(event)">(2548)</span>  
+                            <span class="btn btn-outline-success" data-value="ใต้ทะเลมีความรัก ภาคสาม: หลังคลื่นอันดามัน" draggable="true" ondragstart="drag(event)">ใต้ทะเลมีความรัก ภาคสาม: หลังคลื่นอันดามัน</span>  
+                            <span class="btn btn-outline-success" data-value="พิมพ์ครั้งที่ 2" draggable="true" ondragstart="drag(event)">พิมพ์ครั้งที่ 2</span>  
+                            <span class="btn btn-outline-success" data-value="กรุงเทพฯ: บ้านพระอาทิตย์" draggable="true" ondragstart="drag(event)">กรุงเทพฯ: บ้านพระอาทิตย์</span>   -->
+                        </div>
+
+                        <div id="inputList">
+
+                        </div>
+
+                        <!-- <div class="input-group mb-3">
+                            <div class="input-group-prepend" style="width: 8rem;">
+                              <span class="input-group-text"  style="justify-content: center;">ชื่อผู้แต่ง</span>
+                            </div>
+                            <input type="text" class="form-control"  ondrop="drop(event)" ondragover="allowDrop(event)">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend" style="width: 8rem;">
+                              <span class="input-group-text"  style="justify-content: center;">ปีที่พิมพ์</span>
+                            </div>
+                            <input type="text" class="form-control"  ondrop="drop(event)" ondragover="allowDrop(event)">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend" style="width: 8rem;">
+                              <span class="input-group-text"  style="justify-content: center;">ชื่อหนังสือ</span>
+                            </div>
+                            <input type="text" class="form-control"  ondrop="drop(event)" ondragover="allowDrop(event)">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend" style="width: 8rem;">
+                              <span class="input-group-text"  style="justify-content: center;">ครั้งที่พิมพ์</span>
+                            </div>
+                            <input type="text" class="form-control"  ondrop="drop(event)" ondragover="allowDrop(event)">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend" style="width: 8rem;">
+                              <span class="input-group-text"  style="justify-content: center;">สถานที่พิมพ์</span>
+                            </div>
+                            <input type="text" class="form-control"  ondrop="drop(event)" ondragover="allowDrop(event)">
+                        </div> -->
+
+                        <div class="form-group">
+                            <label for="format">ตัวอย่างรูปแบบ</label>
+                            <input type="text" class="form-control" id="format" readonly>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="suggestionOutput">ผลลัพธ์</label>
+                            <textarea readonly id="suggestionOutput" class="form-control" name="text"></textarea>   
+                        </div>
+
+                        <button type="button" class="btn btn-outline-success set-button" >SUGGESTION!</button>
+                     
+                        
+                    </div>
+                </div>
+            </div>
+            
             
         </main>
 

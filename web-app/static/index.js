@@ -89,11 +89,14 @@ $( "#selectType" ).change(function() {
     });
 
     $("#selectPattern").html(html)
+    generateInput(MODE)
+
 });
 
 $( "#selectPattern" ).change(function() {
     let THISMODE = $( this ).val();
     MODE = THISMODE
+    generateInput(MODE)
 });
 
 
@@ -227,3 +230,98 @@ function getCheckPosition(text,mode){
         })
         .catch(error => console.log('error', error));
 }
+
+
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("Text");
+    console.log(ev.target);
+
+    $(selectTxt).hide('fast')
+
+    let concatTxt =  ($(ev.target).val())?$(ev.target).val()+' '+data:data // เงื่อนไขเช็คช่องว่าง
+    
+    $(ev.target).val(concatTxt)
+    // if(ev.target.id =='verb' && verbs.indexOf(data) != -1){
+    //     // ev.target.appendChild(document.getElementById(data));
+    // }
+    // else{
+    //     alert(data + ' is not a ' + ev.target.id +'. Try again');
+    // }
+
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+let selectTxt = ''
+function drag(ev) {
+    selectTxt = ev.target
+    ev.dataTransfer.setData("Text", $(ev.target).data('value'));
+}
+
+function cutText(){
+    let textDrag = $('#inputTxtDrag').val().split('.').join(',').split(',')
+    
+    let generateHtml = ''
+
+    textDrag.forEach(d => {
+        let txtTrim = d.trim()
+        if(txtTrim) generateHtml += `<span class="btn btn-outline-success" data-value="${txtTrim}" draggable="true" ondragstart="drag(event)">${txtTrim}</span>`
+    })
+
+    $('#txtList').html(generateHtml)
+
+    // ** FORMAT **
+    // <span class="btn btn-outline-success" data-value="(2548)" draggable="true" ondragstart="drag(event)">(2548)</span>  
+
+}
+
+var select_mode_drag = [
+    {'mode' : '1' , 'input' : 
+        [
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name'} ,
+        {'text' : "ปีที่พิมพ์" , 'id' : 'year'} , 
+        {'text' : "ชื่อหนังสือ" , 'id' : 'book'} , 
+        {'text' : "ครั้งที่พิมพ์" , 'id' : 'pim'},
+        {'text' : "สถานที่พิมพ์" , 'id' : 'location'}
+        ],
+        'format' :'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.'
+    },
+    {'mode' : '2' , 'input' : 
+    [
+    {'text' : "ชื่อผู้เขียนบทความ" , 'id' : 'name'} ,
+    {'text' : "ปีที่พิมพ์" , 'id' : 'year'} , 
+    {'text' : "ชื่อบทความ" , 'id' : 'article'} , 
+    {'text' : "ชื่อผู้แต่ง (บรรณาธิการ)" , 'id' : 'name2'},
+    {'text' : "ชื่อหนังสือ" , 'id' : 'book'} , 
+    {'text' : "ครั้งที่พิมพ์" , 'id' : 'pim'},
+    {'text' : "เลขหน้าที่ปรากฏ" , 'id' : 'number'},
+    {'text' : "สถานที่พิมพ์" , 'id' : 'location'}
+    ],
+    'format' :'ชื่อผู้เขียนบทความ./(ปีพิมพ์)./ชื่อบทความ./ใน/ชื่อผู้แต่ง (บรรณาธิการ),/ชื่อหนังสือ./(ครั้งที่พิมพ์). (เลขหน้าที่ปรากฏบทความจากหน้าใดถึงหน้าใด)./สถานที่พิมพ์:/สำนักพิมพ์.'
+    }
+]
+
+function generateInput(mode){
+
+    let generateHtml = ''
+    let data = select_mode_drag.find(d => d.mode == mode)
+
+    if(!data) {$('#inputList').html(''); return }
+
+    data['input'].forEach(d=>{
+        generateHtml += ` <div class="input-group mb-3">
+                            <div class="input-group-prepend" style="width: 10rem;">
+                            <span class="input-group-text"  style="justify-content: center;">${d.text}</span>
+                            </div>
+                            <input type="text" class="form-control" id="${d.id}"  ondrop="drop(event)" ondragover="allowDrop(event)">
+                        </div>`
+    })
+
+    $('#inputList').html(generateHtml)
+    $('#format').val(data.format)
+}
+
