@@ -275,7 +275,7 @@ function cutText(){
     };
 
 
-    let textDrag = $('#inputTxtDrag').val().replaceAll('“','').replaceAll('”','').split('.').join(',').split(',')
+    let textDrag = $('#inputTxtDrag').val().replaceAll('  ',' ').replaceAll('“','').replaceAll('”','').split('.').join(',').split(',')
     
     let generateHtml = ''
 
