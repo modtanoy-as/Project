@@ -262,7 +262,19 @@ function drag(ev) {
     ev.dataTransfer.setData("Text", $(ev.target).data('value'));
 }
 
+
+
 function cutText(){
+    let mode = MODE // Set the mode
+    if(!mode || mode === 0) {
+        $(".alertTxt").addClass("show")
+        setTimeout(() => {
+            $(".alertTxt").removeClass("show")
+        }, 2500);
+        return
+    };
+
+
     let textDrag = $('#inputTxtDrag').val().split('.').join(',').split(',')
     
     let generateHtml = ''
@@ -274,36 +286,18 @@ function cutText(){
 
     $('#txtList').html(generateHtml)
 
+    let data = select_mode_drag.find(d => d.mode == mode)
+
+    data['input'].forEach(d=>{
+        $(`#${d.id}`).text(null).val(null)
+    })
+    
+    $('#suggestionOutput').text(null)
+
     // ** FORMAT **
     // <span class="btn btn-outline-success" data-value="(2548)" draggable="true" ondragstart="drag(event)">(2548)</span>  
 
 }
-
-var select_mode_drag = [
-    {'mode' : '1' , 'input' : 
-        [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name'} ,
-        {'text' : "ปีที่พิมพ์" , 'id' : 'year'} , 
-        {'text' : "ชื่อหนังสือ" , 'id' : 'book'} , 
-        {'text' : "ครั้งที่พิมพ์" , 'id' : 'pim'},
-        {'text' : "สถานที่พิมพ์" , 'id' : 'location'}
-        ],
-        'format' :'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.'
-    },
-    {'mode' : '2' , 'input' : 
-    [
-    {'text' : "ชื่อผู้เขียนบทความ" , 'id' : 'name'} ,
-    {'text' : "ปีที่พิมพ์" , 'id' : 'year'} , 
-    {'text' : "ชื่อบทความ" , 'id' : 'article'} , 
-    {'text' : "ชื่อผู้แต่ง (บรรณาธิการ)" , 'id' : 'name2'},
-    {'text' : "ชื่อหนังสือ" , 'id' : 'book'} , 
-    {'text' : "ครั้งที่พิมพ์" , 'id' : 'pim'},
-    {'text' : "เลขหน้าที่ปรากฏ" , 'id' : 'number'},
-    {'text' : "สถานที่พิมพ์" , 'id' : 'location'}
-    ],
-    'format' :'ชื่อผู้เขียนบทความ./(ปีพิมพ์)./ชื่อบทความ./ใน/ชื่อผู้แต่ง (บรรณาธิการ),/ชื่อหนังสือ./(ครั้งที่พิมพ์). (เลขหน้าที่ปรากฏบทความจากหน้าใดถึงหน้าใด)./สถานที่พิมพ์:/สำนักพิมพ์.'
-    }
-]
 
 function generateInput(mode){
 
@@ -313,9 +307,13 @@ function generateInput(mode){
     if(!data) {$('#inputList').html(''); return }
 
     data['input'].forEach(d=>{
-        generateHtml += ` <div class="input-group mb-3">
+
+        let headerTxt = `<span class="input-group-text"  style="justify-content: center;">${d.text}</span>`
+        if (d.request) headerTxt = `<span class="input-group-text"  style="justify-content: center;">*${d.text}</span>`
+        generateHtml += ` 
+                        <div class="input-group mb-3">
                             <div class="input-group-prepend" style="width: 10rem;">
-                            <span class="input-group-text"  style="justify-content: center;">${d.text}</span>
+                            ${headerTxt}
                             </div>
                             <input type="text" class="form-control" id="${d.id}"  ondrop="drop(event)" ondragover="allowDrop(event)">
                         </div>`
@@ -323,5 +321,36 @@ function generateInput(mode){
 
     $('#inputList').html(generateHtml)
     $('#format').val(data.format)
+}
+
+function suggestionOutput()
+{
+    let mode = MODE // Set the mode
+    if(!mode) return;
+    let data = select_mode_drag.find(d => d.mode == mode)
+     
+    var suggestionTxt = ''
+    data['input'].forEach(d=>{
+        //  เอาไวเพิ่มเงื่อนไขการแสดงผล เช่นใส่ จุด ใส่ ลูกน้ำ 
+        if($(`#${d.id}`).val() != ''){ // Check Null Text
+            if (d.text == 'ปีที่พิมพ์'){
+                let replaceData = $(`#${d.id}`).val().replaceAll('(','').replaceAll(')','')
+                suggestionTxt+= '('+replaceData+'). '
+            }else if (d.text == 'แปลจาก' || d.text == 'แปลโดย' ) {
+                let replaceData = $(`#${d.id}`).val().replaceAll(`${d.text}`,'')
+                suggestionTxt+=  d.text+' '+replaceData+'. '
+            }else if (d.text == 'ชื่อวารสาร') {
+                suggestionTxt+= $(`#${d.id}`).val()+', '
+            }
+            else{
+                suggestionTxt+= $(`#${d.id}`).val()+'. '
+            }
+        }
+
+        console.log(d.text , ' => ', $(`#${d.id}`).val())
+    })
+
+    $('#suggestionOutput').text(suggestionTxt)
+    console.log('suggestionTxt => ' , suggestionTxt);
 }
 

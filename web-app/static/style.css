@@ -76,3 +76,14 @@ textarea{
   #txtList span {
     margin: 3px;
   }
+
+
+  #inputList{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #inputList .input-group{
+    width: 30% !important;
+    margin-inline: 1rem !important;
+  }
