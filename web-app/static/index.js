@@ -275,7 +275,7 @@ function cutText(){
     };
 
 
-    let textDrag = $('#inputTxtDrag').val().split('.').join(',').split(',')
+    let textDrag = $('#inputTxtDrag').val().replaceAll('“','').replaceAll('”','').split('.').join(',').split(',')
     
     let generateHtml = ''
 
@@ -323,17 +323,23 @@ function generateInput(mode){
     $('#format').val(data.format)
 }
 
+let ADA = [1,2,3,4,5,6]
+let IEEE = [7,8]
+let HARVARD = []
+let VANCOUVER = []
+
 function suggestionOutput()
 {
     let mode = MODE // Set the mode
     if(!mode) return;
     let data = select_mode_drag.find(d => d.mode == mode)
+
      
     var suggestionTxt = ''
     data['input'].forEach(d=>{
         //  เอาไวเพิ่มเงื่อนไขการแสดงผล เช่นใส่ จุด ใส่ ลูกน้ำ 
         if($(`#${d.id}`).val() != ''){ // Check Null Text
-            if (d.text == 'ปีที่พิมพ์'){
+            if (d.text == 'ปีที่พิมพ์' && ADA.includes(mode)){
                 let replaceData = $(`#${d.id}`).val().replaceAll('(','').replaceAll(')','')
                 suggestionTxt+= '('+replaceData+'). '
             }else if (d.text == 'แปลจาก' || d.text == 'แปลโดย' ) {
@@ -343,7 +349,18 @@ function suggestionOutput()
                 suggestionTxt+= $(`#${d.id}`).val()+', '
             }
             else{
-                suggestionTxt+= $(`#${d.id}`).val()+'. '
+                if(IEEE.includes(mode)){
+                    if (d.text == 'ชื่อบทความ'){
+                        let replaceData = $(`#${d.id}`).val().replaceAll('“','').replaceAll('”','').replaceAll('"','')
+                        suggestionTxt+= '“'+replaceData+',” '
+                    } if (d.text == 'ปีที่พิมพ์'){
+                        suggestionTxt+= $(`#${d.id}`).val()
+                    }else{
+                        suggestionTxt+= $(`#${d.id}`).val()+', '
+                    }
+                }else{
+                    suggestionTxt+= $(`#${d.id}`).val()+'. '
+                }
             }
         }
 
