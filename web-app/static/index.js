@@ -64,8 +64,23 @@ function getCheckFormat(text,mode){
             if (result?.feedback){
                 $( "#feedback" ).show('fast').addClass("d-flex")
                 $( "#feedback" ).text("Feedback : "+result.feedback)
+
+                let feedback = result.feedback.split(',').map(d=>d.trim())
+                if (feedback.includes("ไม่มีครั้งที่พิมพ์") && feedback.length>1 || feedback.length > 0 && !feedback.includes("ไม่มีครั้งที่พิมพ์")){
+                    console.log('feedback Fail => ' , feedback)
+                    $('#Bibliographyhelper').show('fast' , d=>{
+                        $('#inputTxtDrag').val(text)
+                        $( "#txtOutput" ).addClass('box-danger').removeClass('box-success')
+                    })
+                }else{
+                    $('#Bibliographyhelper').hide('fast')
+                    $( "#txtOutput" ).addClass('box-success').removeClass('box-danger')
+                    console.log('feedback success => ' , feedback)
+                }
             }else{
                 $( "#feedback" ).hide().removeClass("d-flex")
+                $('#Bibliographyhelper').hide('fast')
+                $( "#txtOutput" ).addClass('box-success').removeClass('box-danger')
             }
             // $( "#feedback" ).text("Feedback : "+result?.feedback ? result.feedback : "")
         })
@@ -274,29 +289,36 @@ function cutText(){
         return
     };
 
+    var requestOptions = {
+        method: 'POST',
+        redirect: 'follow'
+      };
+    let text = $('#inputTxtDrag').val()
+    let param = `txt=${text}`
+    fetch(API_URL+"cutText?"+param, requestOptions)
+    .then(res => res.json())
+    .then(result => {
+        console.log('cutText => ' , result.data)
+        generateHtml(result.data)
+    })
+    .catch(error => console.log('error', error));
 
-    let textDrag = $('#inputTxtDrag').val().replaceAll('  ',' ').replaceAll('“','').replaceAll('”','').split('.').join(',').split(',')
-    
+    // let textDrag = $('#inputTxtDrag').val().replaceAll('“','').replaceAll('”','').split('.').join(',').split(',')
+
+    let data = select_mode_drag.find(d => d.mode == mode)
+    data['input'].forEach(d=>{
+        $(`#${d.id}`).text(null).val(null)
+    })
+    $('#suggestionOutput').text(null)
+}
+
+function generateHtml(textDrag){
     let generateHtml = ''
-
     textDrag.forEach(d => {
         let txtTrim = d.trim()
         if(txtTrim) generateHtml += `<span class="btn btn-outline-success" data-value="${txtTrim}" draggable="true" ondragstart="drag(event)">${txtTrim}</span>`
     })
-
     $('#txtList').html(generateHtml)
-
-    let data = select_mode_drag.find(d => d.mode == mode)
-
-    data['input'].forEach(d=>{
-        $(`#${d.id}`).text(null).val(null)
-    })
-    
-    $('#suggestionOutput').text(null)
-
-    // ** FORMAT **
-    // <span class="btn btn-outline-success" data-value="(2548)" draggable="true" ondragstart="drag(event)">(2548)</span>  
-
 }
 
 function generateInput(mode){

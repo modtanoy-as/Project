@@ -87,3 +87,13 @@ textarea{
     width: 30% !important;
     margin-inline: 1rem !important;
   }
+
+  .box-danger{
+    border: solid var(--bs-danger) !important;
+    background: #ff8591 !important;
+  }
+
+  .box-success{
+    border: solid var(--bs-success) !important;
+    background: #9fffd3 !important;
+  }

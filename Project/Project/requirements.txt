@@ -1,13 +1,104 @@
-asgiref==3.3.4
+absl-py @ file:///C:/ci/absl-py_1623867338309/work
+aiohttp @ file:///C:/ci/aiohttp_1614361133907/work
+asgiref==3.4.1
+astor==0.8.1
+astunparse==1.6.3
+async-timeout==3.0.1
+attacut==1.0.6
+attrs @ file:///tmp/build/80754af9/attrs_1620827162558/work
+blinker==1.4
+brotlipy==0.7.0
+cached-property @ file:///tmp/build/80754af9/cached-property_1600785575025/work
+cachetools @ file:///tmp/build/80754af9/cachetools_1619597386817/work
 certifi==2021.5.30
-click==8.0.1
+cffi @ file:///C:/ci/cffi_1625831764494/work
+chardet @ file:///C:/ci/chardet_1605303259695/work
+charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
+clang==5.0
+click @ file:///tmp/build/80754af9/click_1621604852318/work
 colorama==0.4.4
-fastapi==0.65.1
+ConfigArgParse==1.5.2
+coverage @ file:///C:/ci/coverage_1614614910274/work
+cryptography @ file:///C:/ci/cryptography_1616769432139/work
+cutkum==2.4
+Cython @ file:///C:/ci/cython_1626257059178/work
+deepcut==0.7.0.0
+docopt==0.6.2
+editdistance==0.5.3
+epitran==1.11
+fastapi==0.68.1
+fire==0.4.0
+flatbuffers==1.12
+gast==0.2.2
+google-auth @ file:///tmp/build/80754af9/google-auth_1626320605116/work
+google-auth-oauthlib @ file:///tmp/build/80754af9/google-auth-oauthlib_1617120569401/work
+google-pasta==0.2.0
+grpcio==1.39.0
 h11==0.12.0
-psycopg2==2.8.6
+h5py==3.1.0
+idna @ file:///tmp/build/80754af9/idna_1622654382723/work
+importlib-metadata @ file:///C:/ci/importlib-metadata_1617877486026/work
+joblib==1.0.1
+keras==2.6.0
+Keras-Applications @ file:///tmp/build/80754af9/keras-applications_1594366238411/work
+Keras-Preprocessing @ file:///tmp/build/80754af9/keras-preprocessing_1612283640596/work
+marisa-trie-m==0.7.6
+Markdown @ file:///C:/ci/markdown_1614364005059/work
+mkl-fft==1.3.0
+mkl-random @ file:///C:/ci/mkl_random_1626186163140/work
+mkl-service==2.4.0
+multidict @ file:///C:/ci/multidict_1607367865052/work
+munkres==1.1.4
+nptyping==1.4.3
+numpy==1.19.5
+oauthlib @ file:///tmp/build/80754af9/oauthlib_1623060228408/work
+opt-einsum @ file:///tmp/build/80754af9/opt_einsum_1621500238896/work
+pandas==1.3.2
+panphon==0.19
+protobuf==3.17.2
+pyasn1==0.4.8
+pyasn1-modules==0.2.8
+pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
 pydantic==1.8.2
+PyJWT @ file:///C:/ci/pyjwt_1619651810943/work
+pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1608057966937/work
+pyreadline==2.1
+PySocks @ file:///C:/ci/pysocks_1594394709107/work
+pythainlp==2.3.2
+python-crfsuite==0.9.7
+python-dateutil==2.8.2
+pytz==2021.1
+PyYAML==5.4.1
+regex==2021.8.28
+requests @ file:///tmp/build/80754af9/requests_1629994808627/work
+requests-oauthlib==1.3.0
+rsa @ file:///tmp/build/80754af9/rsa_1614366226499/work
+scikit-learn==0.24.2
+scipy @ file:///C:/ci/scipy_1618856134946/work
+six==1.15.0
+sklearn-crfsuite==0.3.6
+ssg==0.0.8
 starlette==0.14.2
-typing-extensions==3.10.0.0
-uvicorn==0.14.0
+tabulate==0.8.9
+tensorboard==1.15.0
+tensorboard-data-server==0.6.1
+tensorboard-plugin-wit==1.6.0
+tensorflow==1.15.0
+tensorflow-estimator==1.15.1
+termcolor==1.1.0
+threadpoolctl==2.2.0
+tinydb==4.5.1
+torch==1.9.0
+tqdm==4.62.2
+typing-extensions==3.10.0.2
+typish==1.9.3
+unicodecsv==0.14.1
+unicorn==1.0.3
+urllib3 @ file:///tmp/build/80754af9/urllib3_1625084269274/work
+uvicorn==0.15.0
+Werkzeug==0.16.1
+win-inet-pton @ file:///C:/ci/win_inet_pton_1605306165655/work
 wincertstore==0.2
-gunicorn
+wrapt==1.12.1
+yarl @ file:///C:/ci/yarl_1606940114600/work
+zipp @ file:///tmp/build/80754af9/zipp_1625570634446/work

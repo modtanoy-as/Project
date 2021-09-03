@@ -68,7 +68,11 @@ async def checkPosition(txt:str, txtSpecial:str ,structure = "", ):
     )
     return a.Matches[0].output()
   
-
+from cuttext import mainCutText
+@router.post("/cutText" , status_code = 200)
+async def cutText(txt:str):
+    data = mainCutText(txt)
+    return {'data' : data}
     
 
 
