@@ -26,12 +26,17 @@ const Dict_Type = {
     "VANCOUVER" : [
         {"txt" : "บทความวารสาร" , "val" : 15},
         {"txt" : "หนังสือทั้งเล่ม" , "val" : 16},
-        {"txt" : "วิทยานิพนธ์" , "val" : 17},
+        {"txt" : "วิทยานิพนธ์" , "val" : 17}, // ใช้ได้
         {"txt" : "อินเทอร์เน็ต" , "val" : 18},
         {"txt" : "โฮมเพจเว็บไซต์" , "val" : 19},
         {"txt" : "บล็อก" , "val" : 20}
     ],
 }
+
+let ADA = [1,2,3,4,5,6]
+let IEEE = [7,8]
+let HARVARD = [9,10,11,12,13,14]
+let VANCOUVER = [15,16,17,18,19,20]
 
 $( "#checktext" ).click(function() {
     let inPutTxt =  $("#txtInput").val()
@@ -66,7 +71,7 @@ function getCheckFormat(text,mode){
                 $( "#feedback" ).text("Feedback : "+result.feedback)
 
                 let feedback = result.feedback.split(',').map(d=>d.trim())
-                if (feedback.includes("ไม่มีครั้งที่พิมพ์") && feedback.length>1 || feedback.length > 0 && !feedback.includes("ไม่มีครั้งที่พิมพ์")){
+                if (feedback.includes("ไม่มีครั้งที่พิมพ์") && feedback.length>1 || feedback.length > 0 && !feedback.includes("ไม่มีครั้งที่พิมพ์")  && !feedback.includes("ไม่มีวันที่สืบค้น") || feedback.includes("ไม่มีวันที่สืบค้น") && feedback.length>1  ){
                     console.log('feedback Fail => ' , feedback)
                     $('#Bibliographyhelper').show('fast' , d=>{
                         $('#inputTxtDrag').val(text)
@@ -251,11 +256,20 @@ function getCheckPosition(text,mode){
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("Text");
-    console.log(ev.target);
+    console.log(ev.target , $(ev.target).get(0).id);
+
+ 
 
     $(selectTxt).hide('fast')
 
-    let concatTxt =  ($(ev.target).val())?$(ev.target).val()+' '+data:data // เงื่อนไขเช็คช่องว่าง
+    let concatTxt =  ''
+
+    if($(ev.target).get(0).id == "name" || $(ev.target).get(0).id == "name2"){
+        concatTxt = ($(ev.target).val())?$(ev.target).val()+', '+data:data
+    }else{
+        concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+data:data
+    }
+
     
     $(ev.target).val(concatTxt)
     // if(ev.target.id =='verb' && verbs.indexOf(data) != -1){
@@ -280,7 +294,7 @@ function drag(ev) {
 
 
 function cutText(){
-    let mode = MODE // Set the mode
+    let mode = parseInt(MODE) // Set the mode
     if(!mode || mode === 0) {
         $(".alertTxt").addClass("show")
         setTimeout(() => {
@@ -289,21 +303,43 @@ function cutText(){
         return
     };
 
-    var requestOptions = {
-        method: 'POST',
-        redirect: 'follow'
-      };
-    let text = $('#inputTxtDrag').val()
-    let param = `txt=${text}`
-    fetch(API_URL+"cutText?"+param, requestOptions)
-    .then(res => res.json())
-    .then(result => {
-        console.log('cutText => ' , result.data)
-        generateHtml(result.data)
-    })
-    .catch(error => console.log('error', error));
+    // var requestOptions = {
+    //     method: 'POST',
+    //     redirect: 'follow'
+    //   };
+    // let text = $('#inputTxtDrag').val()
+    // let param = `txt=${text}`
+    // fetch(API_URL+"cutText?"+param, requestOptions)
+    // .then(res => res.json())
+    // .then(result => {
+    //     console.log('cutText => ' , result.data)
+    //     generateHtml(result.data)
+    // })
+    // .catch(error => console.log('error', error));
 
-    // let textDrag = $('#inputTxtDrag').val().replaceAll('“','').replaceAll('”','').split('.').join(',').split(',')
+    var text = $('#inputTxtDrag').val()
+    var getNumPage = /(?:(?:[(]น\.\s[0-9]+\-[0-9]+[)]))/g;
+    let getLinkWiki = /(?:(?:สืบค้นจาก|จากวิกิพีเดีย)\s(?:https?:\/\/)?(?:[\w\-])+\.{1}[a-zA-Z./ก-์]+[^ ])/g;
+    let getTHESIS = /(?:[ก-์]+\s?(?:(?:[ก-์]+\.)*)?\s\([ก-์]+\))/g;
+    var getLink = /(?:(?:https?:\/\/)?(?:[\w\-])+\.{1}[a-zA-Z./ก-์]+[^ ])/g;
+    var numPage = text.match(getNumPage);
+    let linkWiki = text.match(getLinkWiki)
+    let THESIS = text.match(getTHESIS)
+    var link = []
+    if(!linkWiki) {
+        link = text.match(getLink)
+    }
+
+    console.log("VANCOUVER.includes(mode) => " , VANCOUVER.includes(mode));
+    if(VANCOUVER.includes(mode)){
+        text = text.split(':').join(',')
+    }
+
+    let textDrag = text.replace(getNumPage , "").replace(getLinkWiki , "").replace(getTHESIS , "").replace(getLink , "").replaceAll('“','').replaceAll('”','').split('.').join(',').split(';').join(',').split(',').concat(numPage,linkWiki,THESIS,link)
+
+
+    console.log('numPage => ' , numPage);
+    generateHtml(textDrag)
 
     let data = select_mode_drag.find(d => d.mode == mode)
     data['input'].forEach(d=>{
@@ -315,7 +351,7 @@ function cutText(){
 function generateHtml(textDrag){
     let generateHtml = ''
     textDrag.forEach(d => {
-        let txtTrim = d.trim()
+        let txtTrim = d?.trim()
         if(txtTrim) generateHtml += `<span class="btn btn-outline-success" data-value="${txtTrim}" draggable="true" ondragstart="drag(event)">${txtTrim}</span>`
     })
     $('#txtList').html(generateHtml)
@@ -345,23 +381,29 @@ function generateInput(mode){
     $('#format').val(data.format)
 }
 
-let ADA = [1,2,3,4,5,6]
-let IEEE = [7,8]
-let HARVARD = []
-let VANCOUVER = []
+
 
 function suggestionOutput()
 {
-    let mode = MODE // Set the mode
+    let mode = parseInt(MODE) // Set the mode
     if(!mode) return;
     let data = select_mode_drag.find(d => d.mode == mode)
 
+    console.log("check Mode IEEE :" , IEEE.includes(mode) , "ADA :" , ADA.includes(mode) , mode , typeof(mode));
      
     var suggestionTxt = ''
     data['input'].forEach(d=>{
         //  เอาไวเพิ่มเงื่อนไขการแสดงผล เช่นใส่ จุด ใส่ ลูกน้ำ 
         if($(`#${d.id}`).val() != ''){ // Check Null Text
-            if (d.text == 'ปีที่พิมพ์' && ADA.includes(mode)){
+            if(VANCOUVER.includes(mode)){
+                if (d.text == 'เมืองที่พิมพ์' ){
+                    suggestionTxt+= $(`#${d.id}`).val()+': '
+                } else if (d.text == 'มหาวิทยาลัย'){
+                    suggestionTxt+= $(`#${d.id}`).val()+'; '
+                }else{
+                    suggestionTxt+= $(`#${d.id}`).val()+'. '
+                }
+            }else if (d.text == 'ปีที่พิมพ์' && ADA.includes(mode)){
                 let replaceData = $(`#${d.id}`).val().replaceAll('(','').replaceAll(')','')
                 suggestionTxt+= '('+replaceData+'). '
             }else if (d.text == 'แปลจาก' || d.text == 'แปลโดย' ) {
@@ -369,14 +411,27 @@ function suggestionOutput()
                 suggestionTxt+=  d.text+' '+replaceData+'. '
             }else if (d.text == 'ชื่อวารสาร') {
                 suggestionTxt+= $(`#${d.id}`).val()+', '
-            }
-            else{
+            }else if (d.text == 'วันเดือนปีที่สืบค้น') {
+                let replaceData = $(`#${d.id}`).val().replaceAll("สืบค้นเมื่อ",'')
+                suggestionTxt+=  'สืบค้นเมื่อ '+replaceData+', '
+            }else if(d.text == 'ปีที่(ฉบับที่)' || d.text == 'ชื่อเรื่อง' && HARVARD.includes(mode)){
+                suggestionTxt+= $(`#${d.id}`).val()+', '
+            }else if (d.text == 'หน้าแรก-หน้าสุดท้าย'){
+                let replaceData = $(`#${d.id}`).val().replaceAll('หน้า','')
+                suggestionTxt+= 'หน้า '+replaceData+'. '
+            }else{
                 if(IEEE.includes(mode)){
-                    if (d.text == 'ชื่อบทความ'){
+                    if (d.text == 'ชื่อบทความ' || d.text == 'ชื่อเรื่องวิทยานิพนธ์'){
                         let replaceData = $(`#${d.id}`).val().replaceAll('“','').replaceAll('”','').replaceAll('"','')
                         suggestionTxt+= '“'+replaceData+',” '
-                    } if (d.text == 'ปีที่พิมพ์'){
-                        suggestionTxt+= $(`#${d.id}`).val()
+                    }else if (d.text == 'ปีที่พิมพ์'){
+                        suggestionTxt+= $(`#${d.id}`).val()+'. '
+                    }else if (d.text == 'เลขหน้าบทความ'){
+                        let replaceData = $(`#${d.id}`).val().replaceAll('หน้า','')
+                        suggestionTxt+= 'หน้า '+replaceData+', '
+                    }else if (d.text == 'ปีที่' || d.text == 'ฉบับที่' ) {
+                        let replaceData = $(`#${d.id}`).val().replaceAll(`${d.text}`,'')
+                        suggestionTxt+=  d.text+' '+replaceData+', '
                     }else{
                         suggestionTxt+= $(`#${d.id}`).val()+', '
                     }
@@ -386,7 +441,7 @@ function suggestionOutput()
             }
         }
 
-        console.log(d.text , ' => ', $(`#${d.id}`).val())
+        console.log(d.text , ' => ', $(`#${d.id}`).val() , suggestionTxt)
     })
 
     $('#suggestionOutput').text(suggestionTxt)
