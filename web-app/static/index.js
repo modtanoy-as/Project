@@ -120,9 +120,11 @@ $( "#selectPattern" ).change(function() {
 });
 
 
-$('input[name=myPDF]').change(function(ev) {
+$('input[name=myPDF]').change(async function(ev) {
     pdffile=this.files[0]
     pdffile_url=URL.createObjectURL(pdffile);
+    ExtractText(pdffile)
+    
     $('#viewer').attr('src',pdffile_url);
 
     $("#panel-wrap")
@@ -446,5 +448,36 @@ function suggestionOutput()
 
     $('#suggestionOutput').text(suggestionTxt)
     console.log('suggestionTxt => ' , suggestionTxt);
+}
+
+function genTable(data){
+    let status = ['ถูก','ผิด']
+    let bodyTable = ''
+    data.forEach(d => {
+        let num = Math.floor(Math.random() * 2)
+        bodyTable+= `<tr>
+                        <td>${d}</td>
+                        <td>${d}</td>
+                        <td class="text-center">${status[num]}</td>
+                        <td class="text-center"><button type="button" class="btn btn-warning">ตัดคำ</button></td>
+                    </tr>`
+    });
+
+    let html = `<table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col" class="text-center" style="width:35vw;">ต้นฉบับ</th>
+                    <th scope="col" class="text-center" style="width:35vw;">ผลลัพธ์</th>
+                    <th scope="col" class="text-center">สถานะ</th>
+                    <th scope="col" class="text-center">ตัดคำ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${bodyTable}
+                </tbody>
+                </table>`
+    
+    $('#outputTable').html(html)
+        
 }
 
