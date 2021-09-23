@@ -404,7 +404,7 @@ function suggestionOutput()
                     suggestionTxt+= $(`#${d.id}`).val()+'. '
                 }
             }else if (d.text == 'ปีที่พิมพ์' && ADA.includes(mode)){
-                let replaceData = $(`#${d.id}`).val().replaceAll('(','').replaceAll(')','')
+                let replaceData = $(`#${d.id}`).val().replaceAll('(','').replaceAll(')','').trim()
                 suggestionTxt+= '('+replaceData+'). '
             }else if (d.text == 'แปลจาก' || d.text == 'แปลโดย' ) {
                 let replaceData = $(`#${d.id}`).val().replaceAll(`${d.text}`,'')

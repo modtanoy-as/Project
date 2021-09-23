@@ -31,6 +31,7 @@ class typefunction():
         'subject' : 'ไม่มีชื่อเรื่อง',
         'degree' : 'ไม่มีระดับปริญญาของวิทยานิพนธ์',
         'magazineyear' : 'ไม่มีชื่อวารสารปีพิมพ์เล่มที่ของวารสาร/เลขหน้า',
+        'numbook' : 'ไม่มีเล่มที่',
         'home' : 'ไม่มีชืื่อโฮมเพจ',
         'nameblog' : 'ไม่มีชื่อบล็อก',
         'access' : 'ไม่มีระบุวันที่การเข้าถึง'
@@ -281,7 +282,7 @@ class typefunction():
                 txt = self.test[key]
                 if key == 'Location':
                     txt = txt+':'
-                elif  key == 'magazine' or key == 'numyear':
+                elif  key == 'day':
                     txt = txt+','
                 else:
                     txt = txt+'.'
@@ -685,9 +686,19 @@ class typefunction():
 
 
 # Vancouver
+
     def checkJOURNALARTICLES(self,txt):
+        # ชื่อผู้แต่ง./ชื่อบทความ./ชื่อวารสารปีพิมพ์;เล่มที่ของวารสาร:หน้าแรก-หน้าสุดท้าย.
         subject = [txt.strip() for txt in txt.split('.')]
         selectCheck = 'JOURNALARTICLES'
+
+        if re.search(r""+pattern[selectCheck]['magazineyear']+"",txt) is not None:
+            self.test['magazineyear'] = re.search(r""+pattern[selectCheck]['magazineyear']+"",txt).group().replace(';','')
+        if re.search(r""+pattern[selectCheck]['numbook']+"",txt) is not None:
+            self.test['numbook'] = re.search(r""+pattern[selectCheck]['numbook']+"",txt).group().replace(':','')
+        if re.search(r""+pattern[selectCheck]['page']+"",txt) is not None:
+            self.test['page'] = re.search(r""+pattern[selectCheck]['page']+"",txt).group()
+
 
         for item in subject:
             if item != '':
@@ -703,7 +714,9 @@ class typefunction():
         for key, value in pattern[selectCheck].items():
             try:
                 txt = self.test[key]
-                if key == 'volume':
+                if key == 'magazineyear':
+                    txt = txt+';'
+                elif  key == 'numbook':
                     txt = txt+':'
                 else:
                     txt = txt+'.'
@@ -865,6 +878,8 @@ class typefunction():
             self.test['SamNakPim'] = re.search(r""+pattern[selectCheck]['SamNakPim']+"",txt).group().replace(';','')
         if re.search(r""+pattern[selectCheck]['year']+"",txt) is not None:
             self.test['year'] = re.search(r""+pattern[selectCheck]['year']+"",txt).group()
+        if re.search(r""+pattern[selectCheck]['url']+"",txt) is not None:
+            self.test['url'] = re.search(r""+pattern[selectCheck]['url']+"",txt).group().replace('.','')
 
         for item in subject:
             if item != '':
@@ -883,8 +898,8 @@ class typefunction():
                     txt = txt+':'
                 elif  key == 'SamNakPim' :
                     txt = txt+';'
-                elif  key == 'url' :
-                    txt = txt+' '
+                # elif  key == 'url' :
+                #     txt = txt+' '
                 else:
                     txt = txt+'.'
                 self.arry.append(txt)
@@ -910,6 +925,7 @@ class typefunction():
             self.test['access'] = re.search(r""+pattern[selectCheck]['access']+"",txt).group()
         if re.search(r""+pattern[selectCheck]['year']+"",txt) is not None:
             self.test['year'] = re.search(r""+pattern[selectCheck]['year']+"",txt).group()
+
     
         for item in subject:
             if item != '':
@@ -926,8 +942,8 @@ class typefunction():
                 txt = self.test[key]
                 if  key == 'year' :
                     txt = txt+' '
-                elif  key == 'url' :
-                    txt = txt+' '
+                # elif  key == 'url' :
+                #     txt = txt+' '
                 else:
                     txt = txt+'.'
                 self.arry.append(txt)
