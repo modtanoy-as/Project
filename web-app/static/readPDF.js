@@ -38,7 +38,7 @@ function getPageText(pageNum, PDFDocumentInstance) {
                 // Concatenate the string of the item to the final string
                 for (var i = 0; i < textItems.length; i++) {
                     var item = textItems[i];
-                    if(item.str == " " && item.fontName == "g_d0_f3"){
+                    if(item.str == " " && (item.fontName.search("f3") > 0)){
                         (finalString.trim()!="") &&
                         listArray.push(finalString.trim())
                         finalString = ""
