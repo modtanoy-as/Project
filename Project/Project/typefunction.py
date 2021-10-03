@@ -296,7 +296,7 @@ class typefunction():
 
             except:
                 if key in self.alertMsg:
-                    if 'url' in  self.test:
+                    if key == 'url' and 'url' in  self.test:
                         if 'จากวิกิพีเดีย' in self.test['url']:
                             if key != 'article' and key != 'Name':
                                 self.msg.append(self.alertMsg[key])
@@ -692,15 +692,16 @@ class typefunction():
 
     def checkJOURNALARTICLES(self,txt):
         # ชื่อผู้แต่ง./ชื่อบทความ./ชื่อวารสารปีพิมพ์;เล่มที่ของวารสาร:หน้าแรก-หน้าสุดท้าย.
-        subject = [txt.strip() for txt in txt.split('.')]
+        import replaceText
+        subject = replaceText.createText(txt,['.',':',';']) 
         selectCheck = 'JOURNALARTICLES'
-
-        if re.search(r""+pattern[selectCheck]['magazineyear']+"",txt) is not None:
-            self.test['magazineyear'] = re.search(r""+pattern[selectCheck]['magazineyear']+"",txt).group().replace(';','')
-        if re.search(r""+pattern[selectCheck]['numbook']+"",txt) is not None:
-            self.test['numbook'] = re.search(r""+pattern[selectCheck]['numbook']+"",txt).group().replace(':','')
-        if re.search(r""+pattern[selectCheck]['page']+"",txt) is not None:
-            self.test['page'] = re.search(r""+pattern[selectCheck]['page']+"",txt).group()
+        print( "subject => " , subject)
+        # if re.search(r""+pattern[selectCheck]['magazineyear']+"",txt) is not None:
+        #     self.test['magazineyear'] = re.search(r""+pattern[selectCheck]['magazineyear']+"",txt).group().replace(';','')
+        # if re.search(r""+pattern[selectCheck]['numbook']+"",txt) is not None:
+        #     self.test['numbook'] = re.search(r""+pattern[selectCheck]['numbook']+"",txt).group().replace(':','')
+        # if re.search(r""+pattern[selectCheck]['page']+"",txt) is not None:
+        #     self.test['page'] = re.search(r""+pattern[selectCheck]['page']+"",txt).group()
 
 
         for item in subject:
@@ -710,7 +711,7 @@ class typefunction():
                     if data is not None:
                         if data.span()[1] > 0:
                             if len(item) == len(data.group()):
-                                # print( key , ' => ' , data.group() , len(item) == len(data.group()) ,  len(item) , len(data.group()))
+                                print( key , ' => ' , data.group() , len(item) == len(data.group()) ,  len(item) , len(data.group()))
                                 if key not in self.test:
                                     self.test[key] = data.group()
 
@@ -777,13 +778,15 @@ class typefunction():
 
 
     def checkTHESISVANCOUVER(self,txt):
-        subject = [txt.strip() for txt in txt.split('.')]
+        # subject = [txt.strip() for txt in txt.split('.')]
+        import replaceText
+        subject = replaceText.createText(txt,['.']) 
         selectCheck = 'THESISVANCOUVER'
 
         if re.search(r""+pattern[selectCheck]['uni']+"",txt) is not None:
-            self.test['uni'] = re.search(r""+pattern[selectCheck]['uni']+"",txt).group().replace(';','')
+            self.test['uni'] = re.search(r""+pattern[selectCheck]['uni']+"",txt).group().replace(';','').strip()
         if re.search(r""+pattern[selectCheck]['Location']+"",txt) is not None:
-            self.test['Location'] = re.search(r""+pattern[selectCheck]['Location']+"",txt).group().replace(':','')
+            self.test['Location'] = re.search(r""+pattern[selectCheck]['Location']+"",txt).group().replace(':','').strip()
         if re.search(r""+pattern[selectCheck]['year']+"",txt) is not None:
             self.test['year'] = re.search(r""+pattern[selectCheck]['year']+"",txt).group().replace('.','')
 
@@ -822,6 +825,8 @@ class typefunction():
         subject = [txt.strip() for txt in txt.split('.')]
         selectCheck = 'INTERNET'
 
+        print("check => "  , re.search(r""+pattern[selectCheck]['page']+"",txt))
+
         if re.search(r""+pattern[selectCheck]['access']+"",txt) is not None:
             self.test['access'] = re.search(r""+pattern[selectCheck]['access']+"",txt).group().replace(';','')
         if re.search(r""+pattern[selectCheck]['year']+"",txt) is not None:
@@ -845,13 +850,14 @@ class typefunction():
                                     self.test[key] = data.group()
         for key, value in pattern[selectCheck].items():
             try:
+                print("key => " , key )
                 txt = self.test[key]
                 if key == 'numyear':
                     txt = txt+':'
                 elif  key == 'year' :
                     txt = txt+' '
                 elif  key == 'url' :
-                    txt = txt+' '
+                    txt = "เข้าถึงได้จาก: " + txt+' '
                 elif  key == 'access' :
                     txt = txt+';'
                 else:
@@ -859,12 +865,13 @@ class typefunction():
                 self.arry.append(txt)
             except:
                 if key in self.alertMsg:
-                    if 'url' in  self.test:
+                    if key == 'url' and 'url' in  self.test:
                         if 'เข้าถึงได้จาก' in self.test['url']:
                             self.msg.append(self.alertMsg[key])
                     else:
-                        self.msg.append(self.alertMsg[key])                   
-
+                        self.msg.append(self.alertMsg[key])     
+                              
+        print("test => ",self.msg)
         if len(self.msg) >0:
             return {'text' : ' '.join(self.arry) , 'feedback' : ', '.join(self.msg)}
         else:
@@ -874,7 +881,7 @@ class typefunction():
     def checkHOMEPAGEWED(self,txt):
         subject = [txt.strip() for txt in txt.split('.')]
         selectCheck = 'HOMEPAGEWED'
-
+        print('test => ' ,  re.search(r""+pattern[selectCheck]['SamNakPim']+"",txt))
         if re.search(r""+pattern[selectCheck]['Location']+"",txt) is not None:
             self.test['Location'] = re.search(r""+pattern[selectCheck]['Location']+"",txt).group().replace(':','')
         if re.search(r""+pattern[selectCheck]['SamNakPim']+"",txt) is not None:
@@ -907,8 +914,9 @@ class typefunction():
                     txt = txt+'.'
                 self.arry.append(txt)
             except:
+                print('err => ' , key )
                 if key in self.alertMsg:
-                    if 'url' in  self.test:
+                    if key == 'url' and 'url' in  self.test:
                         if 'เข้าถึงได้จาก' in self.test['url']:
                             self.msg.append(self.alertMsg[key])
                     else:
@@ -952,7 +960,7 @@ class typefunction():
                 self.arry.append(txt)
             except:
                 if key in self.alertMsg:
-                    if 'url' in  self.test:
+                    if key == 'url' and 'url' in  self.test:
                         if 'เข้าถึงได้จาก' in self.test['url']:
                             self.msg.append(self.alertMsg[key])
                     else:

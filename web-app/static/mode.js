@@ -40,7 +40,7 @@ var select_mode_drag = [
     },
     {'mode' : '4' , 'input' : 
         [
-        {'text' : "ชื่อผู้เขียนวิทยานิพนธ์" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้เขียนวิทยานิพนธ์" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์" , 'id' : 'Year' , 'request' : true} , 
         {'text' : "ชื่อวิทยานิพนธ์" , 'id' : 'thesis' , 'request' : true} , 
         {'text' : "ชื่อวิทยานิพนธ์ปริญญามหาบัณฑิต" , 'id' : 'univer' , 'request' : true}
@@ -49,7 +49,7 @@ var select_mode_drag = [
     },
     {'mode' : '5' , 'input' : 
         [
-        {'text' : "ชื่อผู้เขียนบทความ" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้เขียนบทความ" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์" , 'id' : 'Year' , 'request' : true} , 
         {'text' : "ชื่อบทความ" , 'id' : 'article' , 'request' : true} , 
         {'text' : "ชื่อวารสาร" , 'id' : 'magazine' , 'request' : true} , 
@@ -60,7 +60,7 @@ var select_mode_drag = [
     },
     {'mode' : '6' , 'input' : 
         [
-        {'text' : "ชื่อผู้เขียนบทความ" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้เขียนบทความ" , 'id' : 'name' , 'request' : true} ,
         {'text' : "วันเดือนปีที่สืบค้น" , 'id' : 'day' , 'request' : true} , 
         {'text' : "เว็บไซต์" , 'id' : 'url' , 'request' : true} , 
         ],
@@ -80,7 +80,7 @@ var select_mode_drag = [
     },
     {'mode' : '8' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ชื่อเรื่องวิทยานิพนธ์" , 'id' : 'thesis' , 'request' : true} , 
         {'text' : "วิทยานิพนธ์หรือสารนิพนธ์" , 'id' : 'thesis1' , 'request' : true} , 
         {'text' : "ชื่อมหาวิทยาลัย" , 'id' : 'uni' , 'request' : true} ,
@@ -91,7 +91,7 @@ var select_mode_drag = [
     },
     {'mode' : '9' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์" , 'id' : 'year' , 'request' : true} , 
         {'text' : "ชื่อเรื่อง" , 'id' : 'subject' , 'request' : true} , 
         {'text' : "ชื่อวารสาร" , 'id' : 'magazine' , 'request' : true} ,
@@ -102,7 +102,7 @@ var select_mode_drag = [
     },
     {'mode' : '10' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์" , 'id' : 'year' , 'request' : true} , 
         {'text' : "ชื่อหนังสือ" , 'id' : 'Book' , 'request' : true} , 
         {'text' : "เมืองที่พิมพ์:สำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true}
@@ -111,7 +111,7 @@ var select_mode_drag = [
     },
     {'mode' : '11' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์" , 'id' : 'year' , 'request' : true} , 
         {'text' : "หัวข้อ" , 'id' : 'article' , 'request' : true} , 
         {'text' : "ผู้เรียบเรียงหนังสือ" , 'id' : 'editor' , 'request' : true} ,
@@ -122,7 +122,7 @@ var select_mode_drag = [
     },
     {'mode' : '12' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์" , 'id' : 'year' , 'request' : true} , 
         {'text' : "หัวข้อ" , 'id' : 'title' , 'request' : true} , 
         {'text' : "ครั้งที่พิมพ์" , 'id' : 'Pim' , 'request' : true} ,
@@ -132,7 +132,7 @@ var select_mode_drag = [
     },
     {'mode' : '13' , 'input' : 
         [
-        {'text' : "ผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์" , 'id' : 'year' , 'request' : true} , 
         {'text' : "ชื่อเรื่อง" , 'id' : 'subject' , 'request' : true} , 
         {'text' : "วัน/เดือน/ปีที่สืบค้น" , 'id' : 'dayHarvard' , 'request' : true} ,
@@ -143,7 +143,7 @@ var select_mode_drag = [
     },
     {'mode' : '14' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์" , 'id' : 'year' , 'request' : true} , 
         {'text' : "ชื่อวิทยานิพนธ์" , 'id' : 'thesis' , 'request' : true} , 
         {'text' : "ระดับปริญญาของวิทยานิพนธ์" , 'id' : 'degree' , 'request' : true} ,
@@ -154,7 +154,7 @@ var select_mode_drag = [
     },
     {'mode' : '15' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ชื่อบทความ" , 'id' : 'article' , 'request' : true} , 
         {'text' : "ชื่อวารสารปีพิมพ์" , 'id' : 'thesis' , 'request' : true} , 
         {'text' : "เล่มที่ของวารสาร" , 'id' : 'num' , 'request' : false} ,
@@ -164,7 +164,7 @@ var select_mode_drag = [
     },
     {'mode' : '16' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ชื่อหนังสือ" , 'id' : 'Book' , 'request' : true} , 
         {'text' : "ครั้งที่พิมพ์" , 'id' : 'Pim' , 'request' : true} , 
         {'text' : "เมืองที่พิมพ์:สำนักพิมพ์" , 'id' : 'location' ,  'request' : true},
@@ -175,7 +175,7 @@ var select_mode_drag = [
     },
     {'mode' : '17' , 'input' : 
         [
-        {'text' : "ผู้นิพนธ์" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ผู้นิพนธ์" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ชื่อเรื่อง" , 'id' : 'title' , 'request' : true} , 
         {'text' : "เมืองที่พิมพ์" , 'id' : 'Location' , 'request' : true} , 
         {'text' : "มหาวิทยาลัย" , 'id' : 'uni' , 'request' : true} ,
@@ -185,11 +185,11 @@ var select_mode_drag = [
     },
     {'mode' : '18' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ชื่อบทความ" , 'id' : 'article' , 'request' : true} , 
         {'text' : "ชื่อวารสาร" , 'id' : 'magazine' , 'request' : true} , 
-        {'text' : "ปีพิมพ์" , 'id' : 'year' , 'request' : true} ,
-        {'text' : "[เข้าถึงเมื่อ ปีเดือน วันที่]" , 'id' : 'access' , 'request' : true} ,
+        {'text' : "ปีที่พิมพ์[เข้าถึงเมื่อ ปี เดือน วันที่]" , 'id' : 'year' , 'request' : true} ,
+        // {'text' : "[เข้าถึงเมื่อ ปีเดือน วันที่]" , 'id' : 'access' , 'request' : true} ,
         {'text' : "ปีที่ (ฉบับที่)" , 'id' : 'numyear' , 'request' : true} ,
         {'text' : "หน้า" , 'id' : 'page' , 'request' : true},
         {'text' : "เข้าถึงได้จาก" , 'id' : 'url' , 'request' : true}
@@ -201,14 +201,14 @@ var select_mode_drag = [
         {'text' : "ชื่อโฮมเพจ" , 'id' : 'home' , 'request' : true} ,
         {'text' : "เมืองที่พิมพ์:สำนักพิมพ์" , 'id' : 'location' ,  'request' : true},
         // {'text' : "ชื่อสำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true} , 
-        {'text' : "ปีพิมพ์" , 'id' : 'year' , 'request' : true} ,
-        {'text' : "url" , 'id' : 'url' , 'request' : true}
+        {'text' : "ปีพิมพ์" , 'id' : 'yearLong' , 'request' : true} ,
+        {'text' : "เข้าถึงได้จาก" , 'id' : 'url' , 'request' : true}
         ],
         'format' :'ชื่อโฮมเพจ/เว็บไซต์/[อินเทอร์เน็ต]./ชื่อเมืองที่พิมพ์:/ชื่อสำนักพิมพ์;/ปีที่พิมพ์/[ปรับปรุงเมื่อปี/เดือน/วันที่;/เข้าถึงเมื่อปี/เดือน/วันที่]./เข้าถึงได้จาก:/http://………….'
     },
     {'mode' : '20' , 'input' : 
         [
-        {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
+        {'text' : "ชื่อผู้แต่ง" , 'id' : 'name' , 'request' : true} ,
         {'text' : "ชื่อบล็อก" , 'id' : 'nameblog' , 'request' : true} , 
         {'text' : "เมืองที่พิมพ์:สำนักพิมพ์" , 'id' : 'location' ,  'request' : true},
         // {'text' : "ชื่อสำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true} ,

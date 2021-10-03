@@ -279,6 +279,8 @@ function drop(ev) {
         concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+data.replaceAll(" ",""):data.replaceAll(" ","")
     }else if($(ev.target).get(0).id == 'thesis1'){
         concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+replaceText(data,[' (',')']):replaceText(data,[' (',')'])
+    }else if($(ev.target).get(0).id == 'location'){
+        concatTxt = ($(ev.target).val())?$(ev.target).val()+': '+data:data
     }else{
         concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+data:data
     }
@@ -337,22 +339,24 @@ function cutText(){
     let getLinkWiki = /(?:(?:สืบค้นจาก|จากวิกิพีเดีย)\s(?:https?:\/\/)?(?:[\w\-])+\.{1}[a-zA-Z./ก-์]+[^ ])/g;
     let getTHESIS = /([วิทยานิพนธ์]+.(?:(?:[ก-์]+\.)*)?\s\(.[ก-์]+.\))/g;
     var getLink = /(?:(?:https?:\/\/)?(?:[\w\-])+\.{1}[a-zA-Z./ก-์]+[^ ])/g;
+    let getYearVancouver = /(?:[0-9]+.\[.*\])/g;
     var numPage = text.match(getNumPage);
     let linkWiki = text.match(getLinkWiki)
     let THESIS = text.match(getTHESIS)
     var link = []
+    var YearVancouver = []
     if(!linkWiki) {
         link = text.match(getLink)
     }
 
     numPage = (numPage)?[text.match(getNumPage)[0].replaceAll(" ", "").replace(".",". ")]:[]
 
-    console.log("VANCOUVER.includes(mode) => " , VANCOUVER.includes(mode));
     if(VANCOUVER.includes(mode)){
-        text = text.split(':').join(',')
+        YearVancouver = text.match(getYearVancouver)
+        text = text.replace(getLink , "").split(':').join(',').replaceAll("เข้าถึงได้จาก" ,"").replace(getYearVancouver , "")
     }
 
-    let textDrag = text.replace(getNumPage , "").replace(getLinkWiki , "").replace(getTHESIS , "").replace(getLink , "").replaceAll('“','').replaceAll('”','').split('.').join(',').split(';').join(',').split(',').concat(numPage,linkWiki,THESIS,link)
+    let textDrag = text.replace(getNumPage , "").replace(getLinkWiki , "").replace(getTHESIS , "").replace(getLink , "").replaceAll('“','').replaceAll('”','').split('.').join(',').split(';').join(',').split(',').concat(numPage,linkWiki,THESIS,link,YearVancouver)
     // let textDrag = text.replaceAll('“','').replaceAll('”','').split('.').join(',').split(';').join(',').split(',').concat(numPage,linkWiki,THESIS,link)
 
     console.log('textDrag => ' , textDrag);
@@ -413,14 +417,22 @@ function suggestionOutput()
         //  เอาไวเพิ่มเงื่อนไขการแสดงผล เช่นใส่ จุด ใส่ ลูกน้ำ 
         if($(`#${d.id}`).val() != ''){ // Check Null Text
             if(VANCOUVER.includes(mode)){
-                if (d.text == 'เมืองที่พิมพ์' ){
+                if (d.text == 'เมืองที่พิมพ์' || d.text == 'เล่มที่ของวารสาร' || d.id == 'numyear' ){
                     suggestionTxt+= $(`#${d.id}`).val()+': '
-                } else if (d.text == 'มหาวิทยาลัย'){
+                } else if (d.text == 'มหาวิทยาลัย' || d.text == 'ชื่อวารสารปีพิมพ์' || d.id == 'year' || d.id == 'location'){
                     suggestionTxt+= $(`#${d.id}`).val()+'; '
+                }else if(d.text == 'เข้าถึงได้จาก'){
+                    suggestionTxt+= d.text + ": " +$(`#${d.id}`).val()
+                }else if(d.text == 'หน้า'){
+                    let replaceData = $(`#${d.id}`).val().replaceAll('[','').replaceAll(']','').replaceAll("หน้า" , "").trim()
+                    suggestionTxt+= '[หน้า '+replaceData+']. '
+                }else if( d.id == 'yearLong'){
+                    let replaceData = replaceText($(`#${d.id}`).val(), ['['])
+                    suggestionTxt+= replaceData+'. '
                 }else{
                     suggestionTxt+= $(`#${d.id}`).val()+'. '
                 }
-            }else if ((d.text == 'ปีที่พิมพ์'||d.text == 'ชื่อวิทยานิพนธ์ปริญญามหาบัณฑิต') && ADA.includes(mode)){
+            }else if ((d.text == 'ปีที่พิมพ์'||d.text == 'ชื่อวิทยานิพนธ์ปริญญามหาบัณฑิต' || d.text == 'เลขหน้าที่ปรากฏ') && ADA.includes(mode)){
                 let replaceData = $(`#${d.id}`).val().replaceAll('(','').replaceAll(')','').trim()
                 suggestionTxt+= '('+replaceData+'). '
             }else if (d.text == 'แปลจาก' || d.text == 'แปลโดย' ) {
