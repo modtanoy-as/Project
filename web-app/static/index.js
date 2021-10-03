@@ -266,11 +266,15 @@ function drop(ev) {
 
     let concatTxt =  ''
 
-    if($(ev.target).get(0).id == "name" || $(ev.target).get(0).id == "name2"){
+    if($(ev.target).get(0).id == "name" || $(ev.target).get(0).id == "name2" || $(ev.target).get(0).id == "univer"){
         concatTxt = ($(ev.target).val())?$(ev.target).val()+', '+data:data
+    }else if($(ev.target).get(0).id == "numyear"){
+        concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+data.replaceAll(" ",""):data.replaceAll(" ","")
     }else{
         concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+data:data
     }
+
+   
 
     
     $(ev.target).val(concatTxt)
@@ -320,9 +324,9 @@ function cutText(){
     // .catch(error => console.log('error', error));
 
     var text = $('#inputTxtDrag').val()
-    var getNumPage = /(?:(?:[(]น\.\s[0-9]+\-[0-9]+[)]))/g;
+    var getNumPage = /(([(]น.*[0-9].*\-.*[0-9]+[)]))/g;
     let getLinkWiki = /(?:(?:สืบค้นจาก|จากวิกิพีเดีย)\s(?:https?:\/\/)?(?:[\w\-])+\.{1}[a-zA-Z./ก-์]+[^ ])/g;
-    let getTHESIS = /(?:[ก-์]+\s?(?:(?:[ก-์]+\.)*)?\s\([ก-์]+\))/g;
+    let getTHESIS = /([วิทยานิพนธ์]+.(?:(?:[ก-์]+\.)*)?\s\([ก-์]+\))/g;
     var getLink = /(?:(?:https?:\/\/)?(?:[\w\-])+\.{1}[a-zA-Z./ก-์]+[^ ])/g;
     var numPage = text.match(getNumPage);
     let linkWiki = text.match(getLinkWiki)
@@ -332,15 +336,17 @@ function cutText(){
         link = text.match(getLink)
     }
 
+    numPage = (numPage)?[text.match(getNumPage)[0].replaceAll(" ", "").replace(".",". ")]:[]
+
     console.log("VANCOUVER.includes(mode) => " , VANCOUVER.includes(mode));
     if(VANCOUVER.includes(mode)){
         text = text.split(':').join(',')
     }
 
     let textDrag = text.replace(getNumPage , "").replace(getLinkWiki , "").replace(getTHESIS , "").replace(getLink , "").replaceAll('“','').replaceAll('”','').split('.').join(',').split(';').join(',').split(',').concat(numPage,linkWiki,THESIS,link)
+    // let textDrag = text.replaceAll('“','').replaceAll('”','').split('.').join(',').split(';').join(',').split(',').concat(numPage,linkWiki,THESIS,link)
 
-
-    console.log('numPage => ' , numPage);
+    console.log('textDrag => ' , textDrag);
     generateHtml(textDrag)
 
     let data = select_mode_drag.find(d => d.mode == mode)
@@ -405,7 +411,7 @@ function suggestionOutput()
                 }else{
                     suggestionTxt+= $(`#${d.id}`).val()+'. '
                 }
-            }else if (d.text == 'ปีที่พิมพ์' && ADA.includes(mode)){
+            }else if ((d.text == 'ปีที่พิมพ์'||d.text == 'ชื่อวิทยานิพนธ์ปริญญามหาบัณฑิต') && ADA.includes(mode)){
                 let replaceData = $(`#${d.id}`).val().replaceAll('(','').replaceAll(')','').trim()
                 suggestionTxt+= '('+replaceData+'). '
             }else if (d.text == 'แปลจาก' || d.text == 'แปลโดย' ) {

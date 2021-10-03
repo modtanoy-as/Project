@@ -8,8 +8,8 @@ var select_mode_drag = [
         // {'text' : "แปลจาก", 'id' : 'translatefrom' , 'request' : false},
         // {'text' : "แปลโดย", 'id' : 'translateby' , 'request' : false},
         {'text' : "ครั้งที่พิมพ์" , 'id' : 'pim' , 'request' : false},
-        {'text' : "สถานที่พิมพ์" , 'id' : 'location' , 'request' : true},
-        {'text' : "สำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true}
+        {'text' : "สถานที่พิมพ์:สำนักพิมพ์" , 'id' : 'location' ,  'request' : true},
+        // {'text' : "สำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true}
         ],
         'format' :'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.'
     },
@@ -22,8 +22,8 @@ var select_mode_drag = [
         {'text' : "ชื่อหนังสือ" , 'id' : 'book' ,  'request' : true} , 
         {'text' : "ครั้งที่พิมพ์" , 'id' : 'pim' ,  'request' : false},
         {'text' : "เลขหน้าที่ปรากฏ" , 'id' : 'number' ,  'request' : true},
-        {'text' : "สถานที่พิมพ์" , 'id' : 'location' ,  'request' : true},
-        {'text' : "สำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true}
+        {'text' : "สถานที่พิมพ์:สำนักพิมพ์" , 'id' : 'location' ,  'request' : true},
+        // {'text' : "สำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true}
         ],
         'format' :'ชื่อผู้เขียนบทความ./(ปีพิมพ์)./ชื่อบทความ./ใน/ชื่อผู้แต่ง (บรรณาธิการ),/ชื่อหนังสือ./(ครั้งที่พิมพ์). (เลขหน้าที่ปรากฏบทความจากหน้าใดถึงหน้าใด)./สถานที่พิมพ์:/สำนักพิมพ์.'
     },    
@@ -167,8 +167,8 @@ var select_mode_drag = [
         {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
         {'text' : "ชื่อหนังสือ" , 'id' : 'Book' , 'request' : true} , 
         {'text' : "ครั้งที่พิมพ์" , 'id' : 'Pim' , 'request' : true} , 
-        {'text' : "เมืองที่พิมพ์" , 'id' : 'Location' , 'request' : true} ,
-        {'text' : "สำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true} ,
+        {'text' : "เมืองที่พิมพ์:สำนักพิมพ์" , 'id' : 'location' ,  'request' : true},
+        // {'text' : "สำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true} ,
         {'text' : "ปี" , 'id' : 'year' , 'request' : true}
         ],
         'format' :'ชื่อผู้แต่ง./ชื่อหนังสือ./ครั้งที่พิมพ์./เมืองที่พิมพ์:/สำนักพิมพ์;/ปี'
@@ -199,8 +199,8 @@ var select_mode_drag = [
     {'mode' : '19' , 'input' : 
         [
         {'text' : "ชื่อโฮมเพจ" , 'id' : 'home' , 'request' : true} ,
-        {'text' : "ชื่อเมืองที่พิมพ์" , 'id' : 'Location' , 'request' : true} , 
-        {'text' : "ชื่อสำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true} , 
+        {'text' : "เมืองที่พิมพ์:สำนักพิมพ์" , 'id' : 'location' ,  'request' : true},
+        // {'text' : "ชื่อสำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true} , 
         {'text' : "ปีพิมพ์" , 'id' : 'year' , 'request' : true} ,
         {'text' : "url" , 'id' : 'url' , 'request' : true}
         ],
@@ -210,8 +210,8 @@ var select_mode_drag = [
         [
         {'text' : "ชื่อผู้แต่ง" , 'id' : 'Name' , 'request' : true} ,
         {'text' : "ชื่อบล็อก" , 'id' : 'nameblog' , 'request' : true} , 
-        {'text' : "ชื่อเมืองที่พิมพ์" , 'id' : 'Location' , 'request' : true} , 
-        {'text' : "ชื่อสำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true} ,
+        {'text' : "เมืองที่พิมพ์:สำนักพิมพ์" , 'id' : 'location' ,  'request' : true},
+        // {'text' : "ชื่อสำนักพิมพ์" , 'id' : 'SamNakPim' , 'request' : true} ,
         {'text' : "ปีที่พิมพ์[เข้าถึงเมื่อปีเดือน วันที่]" , 'id' : 'year' , 'request' : true} ,
         {'text' : "เข้าถึงได้จาก" , 'id' : 'url' , 'request' : true}
         ],
