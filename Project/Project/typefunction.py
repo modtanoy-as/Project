@@ -354,6 +354,7 @@ class typefunction():
             return {'text' : ' '.join(self.arry) }
 
     def checkTHESISIEEE(self,txt):
+        import replaceText
         subject = [txt.strip().replace('” ','') for txt in txt.split(',')]
         selectCheck = 'THESISIEEE'
 
@@ -361,6 +362,8 @@ class typefunction():
             self.test['year'] = re.search(r""+pattern[selectCheck]['year']+"",txt).group()
         if re.search(r""+pattern[selectCheck]['thesis']+"",txt) is not None:
             self.test['thesis'] = re.search(r""+pattern[selectCheck]['thesis']+"",txt).group()
+        if re.search(r""+pattern[selectCheck]['thesis1']+"",txt) is not None:
+            self.test['thesis1'] = replaceText.replaceText(re.search(r""+pattern[selectCheck]['thesis1']+"",txt).group(),[' (',')'])
 
         for item in subject:
             if item != '':

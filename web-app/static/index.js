@@ -253,7 +253,14 @@ function getCheckPosition(text,mode){
         .catch(error => console.log('error', error));
 }
 
+function replaceText(text,pattern){
+    pattern.forEach(pt => {
+        text = text.split(pt).map(d => d.trim());
+        text = text.join(pt)
+    });
 
+    return text
+}
 
 function drop(ev) {
     ev.preventDefault();
@@ -270,6 +277,8 @@ function drop(ev) {
         concatTxt = ($(ev.target).val())?$(ev.target).val()+', '+data:data
     }else if($(ev.target).get(0).id == "numyear"){
         concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+data.replaceAll(" ",""):data.replaceAll(" ","")
+    }else if($(ev.target).get(0).id == 'thesis1'){
+        concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+replaceText(data,[' (',')']):replaceText(data,[' (',')'])
     }else{
         concatTxt = ($(ev.target).val())?$(ev.target).val()+' '+data:data
     }
@@ -326,7 +335,7 @@ function cutText(){
     var text = $('#inputTxtDrag').val()
     var getNumPage = /(([(]น.*[0-9].*\-.*[0-9]+[)]))/g;
     let getLinkWiki = /(?:(?:สืบค้นจาก|จากวิกิพีเดีย)\s(?:https?:\/\/)?(?:[\w\-])+\.{1}[a-zA-Z./ก-์]+[^ ])/g;
-    let getTHESIS = /([วิทยานิพนธ์]+.(?:(?:[ก-์]+\.)*)?\s\([ก-์]+\))/g;
+    let getTHESIS = /([วิทยานิพนธ์]+.(?:(?:[ก-์]+\.)*)?\s\(.[ก-์]+.\))/g;
     var getLink = /(?:(?:https?:\/\/)?(?:[\w\-])+\.{1}[a-zA-Z./ก-์]+[^ ])/g;
     var numPage = text.match(getNumPage);
     let linkWiki = text.match(getLinkWiki)
