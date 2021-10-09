@@ -14,6 +14,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.entry.min.js" ></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.worker.min.js"></script>
+<!-- ICON -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightblue;">
@@ -60,10 +62,11 @@
                         </select>
 
                         <div class="form-group container-fluid" style="justify-content: flex-end; display: flex;">
-                            <div>
+                            <div class="d-flex">
                                 <input class="form-control" style="width: 25rem;" name="myPDF" type="file" id="formFile">
-                                <small style="position: absolute; color: red; right: 3rem;">***รองรับเฉพาะ PDF</small>
+                                <button class="btn btn-danger" style="margin-left: 1rem;" onclick="clearFile()" ><i class="fa fa-refresh"></i></button>
                             </div>
+                            <small style="position: absolute; color: red; right: 3rem; margin-top: 3rem;">***รองรับเฉพาะ PDF</small>
                         </div>
                     </div>
 
@@ -71,7 +74,7 @@
             </div>
 
             <div class ="container-fluid p-4 mt-5">
-                    <div class="card BoxPDF">
+                    <!-- <div class="card BoxPDF">
                         <div class="card-header">
                         PDF <div class="pull-right"><i id="panel-wrap" style="cursor: pointer;" class="fa fa-angle-down mr-2"></i></div>
                         </div>
@@ -82,8 +85,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="container table-responsive-md" id="outputTable">
+                    </div> -->
+                    <div class="container-fluid table-responsive-md" id="outputTable">
 
                     </div>
             </div>

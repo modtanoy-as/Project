@@ -58,7 +58,7 @@ function getCheckFormat(text,mode){
         redirect: 'follow'
       };
       
-      let param = `txt=${text}&mode=${mode}`
+    let param = `txt=${text}&mode=${mode}`
 
       fetch(API_URL+"checkFormat?"+param, requestOptions)
         .then(response => response.json())
@@ -111,12 +111,41 @@ $( "#selectType" ).change(function() {
     $("#selectPattern").html(html)
     generateInput(MODE)
 
+    let myfile = $('input[name=myPDF]')[0].files[0]
+    if(myfile){
+        pdffile_url=URL.createObjectURL(myfile);
+        ExtractText(pdffile)
+        
+        $('#viewer').attr('src',pdffile_url);
+
+        $("#panel-wrap")
+            .removeClass("fa fa-angle-down")
+            .addClass("fa fa-angle-up");
+
+        $("#panel-wrap").closest(".card").find(".collapse").collapse("show");
+    }
+
 });
 
 $( "#selectPattern" ).change(function() {
     let THISMODE = $( this ).val();
     MODE = THISMODE
     generateInput(MODE)
+
+    let myfile = $('input[name=myPDF]')[0].files[0]
+    if(myfile){
+        pdffile_url=URL.createObjectURL(myfile);
+        ExtractText(pdffile)
+        
+        $('#viewer').attr('src',pdffile_url);
+
+        $("#panel-wrap")
+            .removeClass("fa fa-angle-down")
+            .addClass("fa fa-angle-up");
+
+        $("#panel-wrap").closest(".card").find(".collapse").collapse("show");
+    }
+
 });
 
 
@@ -153,105 +182,6 @@ $(document).on("click","i.fa.fa-angle-up", function(e) {
 });
 
 //END ACTION EXPAN
-
-
-// Check Position
-
-$( "#checkposition" ).click(function() {
-    let inPutTxt =  $("#txtInputPosition").val()
-    console.log("mode => " ,  MODE ,"inPutTxt => ",inPutTxt);
-    if(MODE === 0){
-        $(".alertTxt").addClass("show")
-        setTimeout(() => {
-            $(".alertTxt").removeClass("show")
-        }, 2500);
-        return
-    }
-    getCheckPosition(inPutTxt,MODE)
-
-});
-
-
-var select_txtSpecial = [
-    {'txtSpecial' : '{".":5,"(" : 1 , ")" : 1 , ":" : 2 }' , 'structure' : 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '1' },
-    {'txtSpecial' : '{".":4,"(" : 1 , ")" : 1 ,":" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '2' },
-    {'txtSpecial' : '{".":3,"(" : 1 , ")" : 1 ,":" : 1,"," : 1 }' , 'structure' : 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '3' },
-    {'txtSpecial' : '{".":4,"(" : 1 , ")" : 1 ,":" : 2,"," : 6 }' , 'structure' : 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '4' },
-    {'txtSpecial' : '{".":6,"(" : 1 , ")" : 1 ,":" : 1,"," : 1 }' , 'structure' : 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '5' },
-    {'txtSpecial' : '{".":5,"(" : 2 , ")" : 2 ,":" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./(ปีที่พิมพ์)./ชื่อเรื่อง./ครั้งที่พิมพ์ (พิมพ์ครั้งที่ 2 เป็นต้นไป)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '6' },
-    {'txtSpecial' : '{".":7,"(" : 2 , ")" : 2 ,":" : 1,"-" : 1,"," : 2 }' , 'structure' : 'ชื่อผู้เขียนบทความ./(ปีพิมพ์)./ชื่อบทความ./ใน/ชื่อผู้แต่ง (บรรณาธิการ),/ชื่อหนังสือ./(ครั้งที่พิมพ์). (เลขหน้าที่ปรากฏบทความจากหน้าใดถึงหน้าใด)./สถานที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '7' },
-    {'txtSpecial' : '{".":4,"(" : 2 , ")" : 2 ,"-" : 1,"," : 2 }' , 'structure' : 'ชื่อผู้เขียนบทความ./(ปีพิมพ์)./ชื่อบทความ./ชื่อวารสาร,/ปีที่ (ฉบับที่),/เลขหน้าที่ปรากฎ.' , 'mode' : '8' },
-    {'txtSpecial' : '{".":4,"(" : 2 , ")" : 2 ,"," : 1 }' , 'structure' : 'ชื่อผู้เขียนวิทยานิพนธ์./(ปีพิมพ์)./ชื่อวิทยานิพนธ์./(วิทยานิพนธ์ปริญญามหาบัณฑิตหรือวิทยานิพนธ์ปริญญาดุษฎีบัณฑิต,/ชื่อมหาวิทยาลัย/สถาบันการศึกษา).' , 'mode' : '9' },
-    {'txtSpecial' : '{".":4,"(" : 2 , ")" : 2 ,":" : 1,"," : 2,"[" : 1,"]" : 1,"-" : 1 }' , 'structure' : 'ชื่อผู้เขียนบทความ./(ปีพิมพ์)./ชื่อบทความ [ข้อมูลอิเล็กทรอนิกส์]./ชื่อวารสาร,/ปีที่ (ฉบับที่),/เลขหน้าที่ปรากฎ.' , 'mode' : '10' },
-    {'txtSpecial' : '{".":3,":" : 1,"/" : 4 ,"," : 1 }' , 'structure' : 'ชื่อผู้เขียน/(ปี,เดือน วันที่)./ชื่อเนื้อหา./[รูปแบบสารสนเทศอิเล็กทรอนิกส์]./Retrieved from URL หรือเว็บไซต์ของข้อมูล' , 'mode' : '10' },
-    
-    {'txtSpecial' : '{".":1,"," : 6,"“" : 1,"”" : 1,"-" : 1 }' , 'structure' : 'ชื่อผู้แต่ง,/“ชื่อบทความ,”/ชื่อวารสาร,/ปีที่,/ฉบับที่,/เลขหน้าบทความที่อ้างอิง,/ปีที่พิมพ์.' , 'mode' : '11' },
-    {'txtSpecial' : '{".":3,"," : 5,"“" : 1,"”" : 1,"(" : 1,")" : 1 }' , 'structure' : 'ชื่อผู้แต่ง,/“ชื่อเรื่องวิทยานิพนธ์,”/วิทยานิพนธ์หรือสารนิพนธ์/ชื่อย่อปริญญา/(สาขา),/ชื่อมหาวิทยาลัย,ชื่อเมือง,/ชื่อประเทศ,/ปีที่พิมพ์.' , 'mode' : '12' },
-
-    {'txtSpecial' : '{".":4,"," : 4,"(" : 1,")" : 1,"-" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ปีที่พิมพ์./ชื่อเรื่อง./ชื่อวารสาร,/ปีที่(ฉบับที่),/หน้าแรก-หน้าสุดท้าย.' , 'mode' : '13' },
-    {'txtSpecial' : '{".":4,":" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ปีที่พิมพ์./ชื่อหนังสือ./เมืองที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '14' },
-    {'txtSpecial' : '{".":4,":" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ปีที่พิมพ์./ชื่อหนังสือ./เมืองที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '15' },
-    {'txtSpecial' : '{".":3,":" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ปีที่พิมพ์./ชื่อหนังสือ./เมืองที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '16' },
-    {'txtSpecial' : '{".":5,":" : 2,"," : 1,"/" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ปีที่พิมพ์./หัวข้อ./ผู้เรียบเรียงหนังสือ (eds.),/ชื่อหนังสือ./เมืองที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '17' },
-    {'txtSpecial' : '{".":5,":" : 2}' , 'structure' : 'ชื่อผู้แต่ง. ปีที่พิมพ์. หัวข้อ: หัวข้อย่อย. ครั้งที่พิมพ์. เมืองที่พิมพ์: สำนักพิมพ์.' , 'mode' : '18' },
-    {'txtSpecial' : '{".":7,":" : 1,"," : 1,"/" : 2 }' , 'structure' : 'ผู้แต่ง./ปีที่พิมพ์./ชื่อเรื่อง,/วัน/เดือน/ปีที่สืบค้น./ชื่อฐานข้อมูล./URL.' , 'mode' : '19' },
-    {'txtSpecial' : '{".":4,":" : 1,"," : 2 }' , 'structure' : 'ชื่อผู้แต่ง./ปีที่พิมพ์./ชื่อวิทยานิพนธ์./ระดับปริญญาของวิทยานิพนธ์,/สถาบันการศึกษา,/เมืองที่พิมพ์:/สำนักพิมพ์.' , 'mode' : '20' },
-
-    {'txtSpecial' : '{".":3,":" : 1,"," : 2,";" : 1,"-" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ชื่อบทความ./ชื่อวารสารปีพิมพ์;เล่มที่ของวารสาร:หน้าแรก-หน้าสุดท้าย.' , 'mode' : '21' },
-    {'txtSpecial' : '{".":3,":" : 1,"," : 6,";" : 1,"-" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ชื่อบทความ./ชื่อวารสารปีพิมพ์;เล่มที่ของวารสาร:หน้าแรก-หน้าสุดท้าย.' , 'mode' : '22' },
-    {'txtSpecial' : '{".":3,":" : 1,";" : 1,"-" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ชื่อบทความ./ชื่อวารสารปีพิมพ์;เล่มที่ของวารสาร:หน้าแรก-หน้าสุดท้าย.' , 'mode' : '23' },
-    {'txtSpecial' : '{".":3,":" : 1,";" : 1,"-" : 1 }' , 'structure' : 'ชื่อผู้แต่ง./ชื่อบทความ./ชื่อวารสารปีพิมพ์;เล่มที่ของวารสาร:หน้าแรก-หน้าสุดท้าย.' , 'mode' : '24' },
-    {'txtSpecial' : '{".":3,":" : 1,"[" : 1,"]" : 1,";" : 1 }' , 'structure' : 'ผู้นิพนธ์./ชื่อเรื่อง./เมืองที่พิมพ์:/มหาวิทยาลัย;/ปีที่ได้ปริญญา.' , 'mode' : '25' },
-    {'txtSpecial' : '{".":8,"-" : 2,":" : 3,"[" : 3,"]" : 3,";" : 1,"/" : 4 }' , 'structure' : 'ชื่อผู้แต่ง./ชื่อบทความ./ชื่อวารสาร./ปีพิมพ์/เดือน[เข้าถึงเมื่อ ปีเดือน วันที่];ปีที่ (ฉบับที่):[หน้า]./เข้าถึงได้จาก from: http://………….' , 'mode' : '26' },
-    {'txtSpecial' : '{".":8,":" : 3,"[" : 1,"]" : 1,";" : 2,"/" : 4 }' , 'structure' : 'ชื่อโฮมเพจ/เว็บไซต์/[อินเทอร์เน็ต]./ชื่อเมืองที่พิมพ์:/ชื่อสำนักพิมพ์;/ปีที่พิมพ์/[ปรับปรุงเมื่อปี/เดือน/วันที่;/เข้าถึงเมื่อปี/เดือน/วันที่]./เข้าถึงได้จาก:/http://………….' , 'mode' : '27' },
-    {'txtSpecial' : '{".":6,":" : 3,"[" : 2,"]" : 2,"/" : 4 }' , 'structure' : 'ชื่อผู้แต่ง./ชื่อบล็อก/[อินเทอร์เน็ต]./ชื่อเมืองที่พิมพ์:/ชื่อสำนักพิมพ์;/ปีที่พิมพ์[เข้าถึงเมื่อปีเดือน วันที่]./เข้าถึงได้จาก: http://………….' , 'mode' : '28' },
-
-]
-
-function selectSpecial(mode){
-    let data = select_txtSpecial.find(d => d.mode == mode);
-    return data
-}
-
-
-function getCheckPosition(text,mode){
-    let data = selectSpecial(mode)
-
-    var requestOptions = {
-        method: 'POST',
-        redirect: 'follow'
-      };
-      
-
-      if (data == undefined){ alert("ไม่พบรูปแบบ") ;  return}
-
-      let structure = data.structure
-      let txtSpecial  = data.txtSpecial
-
-      let param = `txt=${text}&txtSpecial=${txtSpecial}&structure=${structure}`
-
-      console.log(param);
-
-      fetch(API_URL+"checkPosition?"+param, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            console.log(result)
-            if (result?.suggestion){
-                $( "#txtOutputPosition" ).text(result?.suggestion)
-            }else{
-                $( "#txtOutputPosition" ).text("")
-            }
-            
-            if (result?.feedback){
-                $( "#feedbackPosition" ).show('fast').addClass("d-flex")
-                $( "#feedbackPosition" ).text("Feedback : "+result.feedback)
-            }else{
-                $( "#feedbackPosition" ).hide().removeClass("d-flex")
-            }
-            // $( "#feedback" ).text("Feedback : "+result?.feedback ? result.feedback : "")
-        })
-        .catch(error => console.log('error', error));
-}
 
 function replaceText(text,pattern){
     pattern.forEach(pt => {
@@ -478,33 +408,97 @@ function suggestionOutput()
 }
 
 function genTable(data){
-    let status = ['ถูก','ผิด']
-    let bodyTable = ''
-    data.forEach(d => {
-        let num = Math.floor(Math.random() * 2)
-        bodyTable+= `<tr>
-                        <td>${d}</td>
-                        <td>${d}</td>
-                        <td class="text-center">${status[num]}</td>
-                        <td class="text-center"><button type="button" class="btn btn-warning">ตัดคำ</button></td>
-                    </tr>`
-    });
 
-    let html = `<table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col" class="text-center" style="width:35vw;">ต้นฉบับ</th>
-                    <th scope="col" class="text-center" style="width:35vw;">ผลลัพธ์</th>
-                    <th scope="col" class="text-center">สถานะ</th>
-                    <th scope="col" class="text-center">ตัดคำ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${bodyTable}
-                </tbody>
-                </table>`
-    
-    $('#outputTable').html(html)
+    console.log("Table => " , data);
+    let status = ['ผิด','ถูก']
+    let bodyTable = ''
+
+
+    if(MODE === 0){
+        $(".alertTxt").addClass("show")
+        setTimeout(() => {
+            $(".alertTxt").removeClass("show")
+        }, 2500);
+        return
+    }
+
+    let dataTable = []
+    data.map(async text => {
+        let dataOutput = getCheckFormatTable(text,MODE)
+        dataTable.push(dataOutput)
+    })
+
+
+    Promise.all(dataTable).then(listData => {
+        listData.forEach(d => {
+            let statusTable = (d.statusNum == 0)?`text-danger`:'text-success'
+            let cutBtn =  (d.statusNum == 0)?'':'disabled'
+            bodyTable+= `<tr>
+                            <td>${d.textIn}</td>
+                            <td>${d.textOut}</td>
+                            <td>${d.feedback}</td>
+                            <td class="text-center ${statusTable}">${status[d.statusNum]}</td>
+                            <td class="text-center"><button type="button" onclick="cutTextTable('${d.textIn}')" class="btn btn-warning ${cutBtn}">ตัดคำ</button></td>
+                        </tr>`
+        })
+  
+        let html = `<table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col" class="text-center" style="width:30vw;">ต้นฉบับ</th>
+                        <th scope="col" class="text-center" style="width:30vw;">ผลลัพธ์</th>
+                        <th scope="col" class="text-center" style="width:20vw;">ข้อเสนอแนะ</th>
+                        <th scope="col" class="text-center">สถานะ</th>
+                        <th scope="col" class="text-center">ตัดคำ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${bodyTable}
+                    </tbody>
+                    </table>`
+        
+        $('#outputTable').html(html)
+    })
         
 }
 
+function checkStatus(dataFeedback){
+    let feedback = dataFeedback.split(',').map(d=>d.trim())
+    if ((feedback.includes("ไม่มีครั้งที่พิมพ์") || feedback.includes("ไม่มีวันที่สืบค้น")) && feedback.length>1 || feedback.length > 0 && !(feedback.includes("ไม่มีครั้งที่พิมพ์")|| feedback.includes("ไม่มีวันที่สืบค้น"))){
+        // ผิด
+        return 0
+    }else{
+        // ถูก
+        return 1
+    }
+}
+
+async function getCheckFormatTable(text,mode){
+
+    var requestOptions = {
+        method: 'POST',
+        redirect: 'follow'
+      };
+      
+    let param = `txt=${text}&mode=${mode}`
+
+    const response = await fetch(API_URL+"checkFormat?"+param, requestOptions)
+    const data = await response.json()
+    let statusNum = checkStatus(data['feedback'])
+
+    return { 'textIn' : text , 'textOut' : data['text']  , 'feedback' : data['feedback'] , 'statusNum' : statusNum}
+}
+
+
+function cutTextTable(text){
+    $('#Bibliographyhelper').show('fast' , d=>{
+        $('#inputTxtDrag').val(text)
+        $('#inputTxtDrag')[0].scrollIntoView();
+        cutText()
+    })
+}
+
+
+function clearFile(){
+    $('input[name=myPDF]').val(null)
+}
