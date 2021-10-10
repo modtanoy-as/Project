@@ -76,16 +76,22 @@ function getCheckFormat(text,mode){
                     $('#Bibliographyhelper').show('fast' , d=>{
                         $('#inputTxtDrag').val(text)
                         $( "#txtOutput" ).addClass('box-danger').removeClass('box-success')
+
+                        $("#feedbackStatus").show('slow').addClass('text-danger').removeClass('text-success').text("รูปแบบไม่ถูกต้อง")
                     })
                 }else{
                     $('#Bibliographyhelper').hide('fast')
                     $( "#txtOutput" ).addClass('box-success').removeClass('box-danger')
+
+                    $("#feedbackStatus").show('slow').addClass('text-success').removeClass('text-danger').text("รูปแบบถูกต้อง")
+
                     console.log('feedback success => ' , feedback)
                 }
             }else{
                 $( "#feedback" ).hide().removeClass("d-flex")
                 $('#Bibliographyhelper').hide('fast')
                 $( "#txtOutput" ).addClass('box-success').removeClass('box-danger')
+                $("#feedbackStatus").show('slow').addClass('text-success').removeClass('text-danger').text("รูปแบบถูกต้อง")
             }
             // $( "#feedback" ).text("Feedback : "+result?.feedback ? result.feedback : "")
         })
@@ -463,6 +469,7 @@ function genTable(data){
 }
 
 function checkStatus(dataFeedback){
+    if(!dataFeedback) return 1
     let feedback = dataFeedback.split(',').map(d=>d.trim())
     if ((feedback.includes("ไม่มีครั้งที่พิมพ์") || feedback.includes("ไม่มีวันที่สืบค้น")) && feedback.length>1 || feedback.length > 0 && !(feedback.includes("ไม่มีครั้งที่พิมพ์")|| feedback.includes("ไม่มีวันที่สืบค้น"))){
         // ผิด
@@ -486,7 +493,7 @@ async function getCheckFormatTable(text,mode){
     const data = await response.json()
     let statusNum = checkStatus(data['feedback'])
 
-    return { 'textIn' : text , 'textOut' : data['text']  , 'feedback' : data['feedback'] , 'statusNum' : statusNum}
+    return { 'textIn' : text , 'textOut' : data['text']  , 'feedback' : (data['feedback'])?data['feedback']:'' , 'statusNum' : statusNum}
 }
 
 
@@ -501,4 +508,5 @@ function cutTextTable(text){
 
 function clearFile(){
     $('input[name=myPDF]').val(null)
+    $('#outputTable').html('')
 }

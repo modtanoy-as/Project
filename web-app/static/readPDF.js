@@ -38,14 +38,17 @@ function getPageText(pageNum, PDFDocumentInstance) {
                 // Concatenate the string of the item to the final string
                 for (var i = 0; i < textItems.length; i++) {
                     var item = textItems[i];
+                    if( i == 0 && item.str == 'บรรณานุกรม') continue
                     if(item.str == " " && (item.fontName.search("f3") > 0)){
                         (finalString.trim()!="") &&
                         listArray.push(finalString.trim())
                         finalString = ""
                     }
-                    finalString += item.str + " ";
+                    finalString += item.str;
                 }
 
+                if(!listArray.length) listArray.push(finalString.trim())
+                
                 console.log('finalString => ' , finalString );
 
 
@@ -77,7 +80,7 @@ function pdfAsArray(pdfAsArray) {
 
             for (var pageNum = 0; pageNum < pagesText.length; pageNum++) {
                 pagesText[pageNum].forEach((data,idx) => {
-                    !(pageNum==0 && idx == 0)&&
+                    // !(pageNum==0 && idx == 0)&&
                     dataListText.push(data)
                 });
             }
