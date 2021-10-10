@@ -2,6 +2,8 @@ const API_URL = "http://127.0.0.1:8000/"
 
 let MODE = 0 // Default 0 
 
+var OnlyTextPass = ['ไม่มีครั้งที่พิมพ์', 'ไม่มีวันที่สืบค้น', 'ไม่มีจังหวัดที่พิมพ์' , 'ไม่มีสถานที่พิมพ์']
+
 const Dict_Type = {
     "APA" : [
         {"txt" : "หนังสือ" , "val" : 1},
@@ -71,7 +73,16 @@ function getCheckFormat(text,mode){
                 $( "#feedback" ).text("Feedback : "+result.feedback)
 
                 let feedback = result.feedback.split(',').map(d=>d.trim())
-                if (feedback.includes("ไม่มีครั้งที่พิมพ์") && feedback.length>1 || feedback.length > 0 && !feedback.includes("ไม่มีครั้งที่พิมพ์")  && !feedback.includes("ไม่มีวันที่สืบค้น") || feedback.includes("ไม่มีวันที่สืบค้น") && feedback.length>1  ){
+
+                // Check Only Status PASS
+                let passOnly = false
+                feedback.forEach(d => {
+                    if(!OnlyTextPass.includes(d)){
+                        passOnly = true;
+                    }
+                })
+
+                if (passOnly){
                     console.log('feedback Fail => ' , feedback)
                     $('#Bibliographyhelper').show('fast' , d=>{
                         $('#inputTxtDrag').val(text)
@@ -160,13 +171,13 @@ $('input[name=myPDF]').change(async function(ev) {
     pdffile_url=URL.createObjectURL(pdffile);
     ExtractText(pdffile)
     
-    $('#viewer').attr('src',pdffile_url);
+    // $('#viewer').attr('src',pdffile_url);
 
-    $("#panel-wrap")
-        .removeClass("fa fa-angle-down")
-        .addClass("fa fa-angle-up");
+    // $("#panel-wrap")
+    //     .removeClass("fa fa-angle-down")
+    //     .addClass("fa fa-angle-up");
 
-    $("#panel-wrap").closest(".card").find(".collapse").collapse("show");
+    // $("#panel-wrap").closest(".card").find(".collapse").collapse("show");
 });
 
 // ACTION EXPAN
@@ -471,7 +482,16 @@ function genTable(data){
 function checkStatus(dataFeedback){
     if(!dataFeedback) return 1
     let feedback = dataFeedback.split(',').map(d=>d.trim())
-    if ((feedback.includes("ไม่มีครั้งที่พิมพ์") || feedback.includes("ไม่มีวันที่สืบค้น")) && feedback.length>1 || feedback.length > 0 && !(feedback.includes("ไม่มีครั้งที่พิมพ์")|| feedback.includes("ไม่มีวันที่สืบค้น"))){
+
+    // Check Only Status PASS
+    let passOnly = false
+    feedback.forEach(d => {
+        if(!OnlyTextPass.includes(d)){
+            passOnly = true;
+        }
+    })
+
+    if (passOnly){
         // ผิด
         return 0
     }else{
