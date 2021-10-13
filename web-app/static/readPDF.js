@@ -25,17 +25,14 @@ function convertDataURIToBinary(dataURI) {
 }
 
 function getPageText(pageNum, PDFDocumentInstance) {
-    // Return a Promise that is solved once the text of the page is retrieven
     console.log('PDFDocumentInstance => ' , PDFDocumentInstance);
     return new Promise(function (resolve, reject) {
         PDFDocumentInstance.getPage(pageNum).then(function (pdfPage) {
-            // The main trick to obtain the text of the PDF page, use the getTextContent method
             pdfPage.getTextContent().then(function (textContent) {
                 console.log("textContent => " , textContent);
                 var textItems = textContent.items;
                 var finalString = "";
                 var listArray = []
-                // Concatenate the string of the item to the final string
                 for (var i = 0; i < textItems.length; i++) {
                     var item = textItems[i];
                     if( i == 0 && item.str == 'บรรณานุกรม') continue
@@ -46,15 +43,7 @@ function getPageText(pageNum, PDFDocumentInstance) {
                     }
                     finalString += item.str;
                 }
-
                 if(!listArray.length) listArray.push(finalString.trim())
-                
-                console.log('finalString => ' , finalString );
-
-
-                console.log('listArray => '  , listArray);
-
-                // Solve promise with the text retrieven from the page
                 resolve(listArray);
             });
         });

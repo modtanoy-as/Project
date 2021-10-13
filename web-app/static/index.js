@@ -130,16 +130,9 @@ $( "#selectType" ).change(function() {
 
     let myfile = $('input[name=myPDF]')[0].files[0]
     if(myfile){
-        pdffile_url=URL.createObjectURL(myfile);
-        ExtractText(pdffile)
-        
-        $('#viewer').attr('src',pdffile_url);
-
-        $("#panel-wrap")
-            .removeClass("fa fa-angle-down")
-            .addClass("fa fa-angle-up");
-
-        $("#panel-wrap").closest(".card").find(".collapse").collapse("show");
+        // pdffile_url=URL.createObjectURL(myfile);
+        // ExtractText(pdffile)
+        getReadPDF(myfile)
     }
 
 });
@@ -151,33 +144,21 @@ $( "#selectPattern" ).change(function() {
 
     let myfile = $('input[name=myPDF]')[0].files[0]
     if(myfile){
-        pdffile_url=URL.createObjectURL(myfile);
-        ExtractText(pdffile)
-        
-        $('#viewer').attr('src',pdffile_url);
-
-        $("#panel-wrap")
-            .removeClass("fa fa-angle-down")
-            .addClass("fa fa-angle-up");
-
-        $("#panel-wrap").closest(".card").find(".collapse").collapse("show");
+        // pdffile_url=URL.createObjectURL(myfile);
+        // ExtractText(pdffile)
+        getReadPDF(myfile)
     }
 
 });
 
 
 $('input[name=myPDF]').change(async function(ev) {
-    pdffile=this.files[0]
-    pdffile_url=URL.createObjectURL(pdffile);
-    ExtractText(pdffile)
-    
-    // $('#viewer').attr('src',pdffile_url);
+    pdffile = this.files[0]
+    // pdffile_url=URL.createObjectURL(pdffile);
+    // ExtractText(pdffile)
 
-    // $("#panel-wrap")
-    //     .removeClass("fa fa-angle-down")
-    //     .addClass("fa fa-angle-up");
-
-    // $("#panel-wrap").closest(".card").find(".collapse").collapse("show");
+    // Get API
+    getReadPDF(pdffile)
 });
 
 // ACTION EXPAN
@@ -529,4 +510,17 @@ function cutTextTable(text){
 function clearFile(){
     $('input[name=myPDF]').val(null)
     $('#outputTable').html('')
+}
+
+
+function getReadPDF(file){
+    // Create Form สำหรับส่ง File
+    let formData = new FormData();
+    formData.append("file", file);
+    fetch(API_URL+'readPDF', {method: "POST", body: formData})
+    .then((res) =>res.json())
+    .then(data => {
+        console.log(data);
+        genTable(data.data)
+    })
 }

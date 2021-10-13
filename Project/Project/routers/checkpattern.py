@@ -1,5 +1,5 @@
 from typing import Dict
-from fastapi import APIRouter , HTTPException , Depends , Query
+from fastapi import APIRouter , HTTPException , Depends , Query , File, UploadFile
 from typefunction import typefunction
 
 router = APIRouter(
@@ -52,27 +52,31 @@ async def checkFormat(txt:str,mode:int):
         result =  typefn.checkBLOG(txt)
     return result
     
-from CheckTxtSpecial import ApaMatch,ApaCheck
-import json
-@router.post("/checkPosition" , status_code = 200)
-async def checkPosition(txt:str, txtSpecial:str ,structure = "", ):
-    a = ApaCheck()
-    
-    txtSpecial = json.loads(txtSpecial)
-    print(txtSpecial)
+from datetime import datetime, timedelta
+from readPDF import readPDF
+import os
+@router.post("/readPDF" , status_code = 200)
+async def readPDFMain(file: UploadFile = File(...)):
 
-    a.check(
-        txt,
-        structure,
-        txtSpecial
-    )
-    return a.Matches[0].output()
-  
-from cuttext import mainCutText
-@router.post("/cutText" , status_code = 200)
-async def cutText(txt:str):
-    data = mainCutText(txt)
-    return {'data' : data}
+    if file.filename.find(".pdf") == -1:
+         return {"filename": file.filename , "data" : [] , "status" : False }
+
+    # GET PATH NOW
+    pathNow = __file__.split('/')
+    pathNow.pop(len(pathNow)-1)
+    pathNow = ('/').join(pathNow)
+
+    # JOIN PATH+FILENAME
+    TIMENOW=(datetime.now() + timedelta(hours=7)).strftime('%Y%m%dT%H%M%S')
+    newFileName = file.filename.replace('.pdf',"_"+TIMENOW+".pdf")
+    pathfile = os.path.join(pathNow, 'upload_file' ,newFileName)
+
+    with open(pathfile, "wb+") as file_object:
+        file_object.write(await file.read())
+
+    data = readPDF(pathfile)
+
+    return {"filename": file.filename , "data" : data , "status" : True }
     
 
 

@@ -296,12 +296,13 @@ class typefunction():
 
             except:
                 if key in self.alertMsg:
-                    if key == 'url' and 'url' in  self.test:
+                    if 'url' in  self.test:
                         if 'จากวิกิพีเดีย' in self.test['url']:
                             if key != 'article' and key != 'Name':
                                 self.msg.append(self.alertMsg[key])
                         elif 'สืบค้นจาก' in self.test['url']:
-                            self.msg.append(self.alertMsg[key])
+                            if key != 'day':
+                                self.msg.append(self.alertMsg[key])
                     else:
                         self.msg.append(self.alertMsg[key])
                             
